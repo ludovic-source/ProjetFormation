@@ -1,0 +1,60 @@
+<header>
+  <div id="bloc_contact">
+    <div id="contact_mail">
+      <p>Contact : MLIST PARIS............</p>
+    </div>
+    <div id="contact_phone">
+      <p>01 40 14 13 04</p>
+    </div>
+  </div>
+
+  <div id="bloc_titre">
+    <h1>Portail CI</h1>
+  </div>
+
+  <div id="bloc_utilisateur">
+    <div id="nom_utilisateur">
+      <p *ngIf="getIsAuth() === true">{{ getUsername() }}</p>
+    </div>
+    <!-- lorsque l'utilisateur est déjà connecté, le lien ne pointe plus sur la page Connexion
+      mais juste une info bulle pour indiquer le prenom et le nom de l'utilisateur connecté ou déconnexion -->
+    <p class="connexion" *ngIf="getIsAuth() === true">
+      <button (click)="onSignOut()">
+        <img src="/assets/images/person24px.svg" alt="déconnexion" title="se déconnecter">
+      </button>
+    </p>
+    <p class="connexion" *ngIf="getIsAuth() === false">
+      <a routerLink="">
+        <img src="/assets/images/person24px.svg" alt="déconnexion" title="se connecter">
+      </a>
+    </p>
+    <!-- pour les utilisateurs de type Admin et de type 2 lorsqu'ils sont déjà connectés.
+    Lorsque l'utilisateur n'est pas connecté, on affiche pas l'icône -->
+    <p id="edition" *ngIf="getIsAuth() === true">
+      <a href="maquetteEdition.html"><img src="/assets/images/pencil24px.svg" alt="mode édition de liens" title="mode édition de liens"></a>
+    </p>
+    <p id="parametrage" *ngIf="getIsAuth() === true">
+      <a href="maquetteParametrage.html"><img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="mode paramétrage"></a>
+    </p>
+  </div>
+</header>
+
+<nav *ngIf="getIsAuth() === true">
+  <div class="menu" *ngFor="let theme of themes"
+                    routerLinkActive="active">
+        <a routerLink="theme/{{ theme.id }}">
+          <h3>{{ theme.nom }}</h3>
+        </a>
+  </div>
+</nav>
+
+<section>
+  <router-outlet></router-outlet>
+</section>
+
+
+
+
+
+
+

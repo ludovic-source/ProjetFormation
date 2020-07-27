@@ -1,0 +1,291 @@
+body
+{
+	font-family: "Times New Roman";
+}
+
+a
+{
+	color: black;
+	text-decoration: none;
+}
+
+a:active
+{
+	color: black;
+}
+
+a:focus
+{
+	border-bottom: 2px solid black;
+}
+
+a:visited
+{
+	color: black;
+}
+
+header
+{
+	/*border : 0.5px solid black; */
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#bloc_contact
+{
+	/*border : 0.5px solid black;*/
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	flex : 1;
+}
+
+#bloc_titre
+{
+	/*border : 0.5px solid black;*/
+	flex : 2;
+	text-align: center;
+	align-self: flex-end;
+}
+
+#bloc_utilisateur
+{
+	/*border : 0.5px solid black;*/
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	flex : 1;
+}
+
+nav
+{
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	height: 50px;
+
+}
+
+.menu_actif
+{
+	border-bottom: 3px solid black;
+}
+
+#bloc_theme
+{
+	/*border : 0.5px solid black;*/
+	margin-left: 5px;
+	margin-right: 5px;
+	background-color: #EEEEEE;
+	display: flex;
+	justify-content: flex-start;
+}
+
+#bloc_theme p
+{
+	height: 12px;
+}
+
+.bloc_sous_theme
+{
+	/*border : 0.5px solid black;*/
+	margin: 10px 20px 20px 20px;
+	display: flex;
+	justify-content: flex-start;
+	align-content: flex-start;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.bloc_sous_theme h4
+{
+	text-decoration: underline;
+	height: 16px
+}
+
+.bloc_sous_sous_theme
+{
+	/*border : 0.5px solid black;*/
+	margin: 0px 5px 5px 0px;
+	display: flex;
+}
+
+.bloc_sous_sous_theme h4
+{
+	height: 12px;
+}
+
+.bloc_lien
+{
+	/*border : 0.5px solid black;*/
+	color : grey;
+}
+
+.bloc_lien h4
+{
+	text-decoration: none;
+	color: black;
+}
+
+#bloc_form_connexion h1
+{
+	text-align: center;
+	font-style: italic;
+}
+
+#bloc_module_parametrage
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#bloc_menu_parametrage
+{
+	width : 350px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	padding-bottom: 20px;
+	border: 0.5px solid black;
+	background-color: #EEEEEE;
+}
+
+.menu_parametrage
+{
+	margin-left: 20px;
+}
+
+.menu_parametrage h1
+{
+	text-align: center;
+}
+
+.bouton_gris_clair
+{
+	width: 300px;
+	margin-left: 20px;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #CCCCCC;
+	border: 1px black solid;
+	border-radius: 10px;
+	box-shadow: 1px 1px 0px grey;
+	text-align: center;
+}
+
+.bouton_gris_fonce
+{
+	width: 300px;
+	margin-left: 20px;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #AAAAAA;
+	border: 1px black solid;
+	border-radius: 10px;
+	box-shadow: 1px 1px 0px grey;
+	text-align: center;
+	color : white;
+}
+
+.bouton_blanc
+{
+	width: 300px;
+	margin-left: 20px;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #FFFFFF;
+	border: 1px black solid;
+	border-radius: 10px;
+	box-shadow: 1px 1px 0px grey;
+	text-align: center;
+}
+
+#bloc_modification_parametrage
+{
+	/*width: 600px;*/
+	margin-left: 50px;
+	margin-right: 20px;
+	margin-top: 20px;
+	padding-bottom: 20px;
+	border: 0.5px solid black;
+	background-color: #EEEEEE;
+}
+
+#bloc_parametrage_profil_titre
+{
+	padding-left: 20px;
+}
+
+#bloc_parametrage_profil_titre h1
+{
+	text-align: center;
+}
+
+#bloc_parametrage_profil_saisie
+{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#bloc_parametrage_profils_actuels
+{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#bloc_parametrage_utlisateur_titre
+{
+	padding-left: 20px;
+}
+
+#bloc_parametrage_utlisateur_titre h1
+{
+	text-align: center;
+}
+
+#bloc_parametrage_utlisateur_saisie
+{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+td, th
+{
+	border : 1px solid black;
+}
+
+#section_edition
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#bloc_module_edition
+{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#bloc_module_edition_titre
+{
+	padding-left: 20px;
+}
+
+#bloc_module_edition_saisie
+{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.active {
+  border-bottom: 3px solid black;
+}
