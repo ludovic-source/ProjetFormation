@@ -3,15 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { User } from '../models/User';
+import { ThemeService } from '../services/theme.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class AuthService {
 
   userSubject = new Subject<any>();
-
-  userAuthentified = new User();
 
   private user =
                   { isAuth : false,
@@ -20,7 +18,10 @@ export class AuthService {
                   }
                  ;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  themes : any[];
+  themesSubscription : Subscription;
+
+  constructor(private httpClient: HttpClient, private themeService: ThemeService, private router: Router) {
 
   }
 
@@ -34,8 +35,8 @@ export class AuthService {
   }
 
   signOut() {
-    this.user.isAuth = false;
     this.logout();
+    this.user.isAuth = false;
     this.emitUserSubject();
     sessionStorage.clear();
   }
@@ -71,6 +72,7 @@ export class AuthService {
                    this.user.username = username;
                    this.getProfil(username);
                    this.emitUserSubject();
+                   this.preparationMenuNav();
                    this.router.navigate(['']);
                }
        });
@@ -90,7 +92,6 @@ export class AuthService {
                    this.router.navigate(['']);
                }
               );
-
   }
 
   getProfil(username) {
@@ -113,6 +114,15 @@ export class AuthService {
 
   getProfilUser() {
       return this.user.profil;
+  }
+
+  preparationMenuNav() {
+      this.themeService.getThemes(0);
+      this.themesSubscription = this.themeService.themesSubject.subscribe(
+                      (themes: any[]) => {
+                                            this.themes = themes;
+                                         });
+      this.themeService.emitThemesSubject();
   }
 
 }

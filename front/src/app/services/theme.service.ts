@@ -1,8 +1,21 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable()
 export class ThemeService {
 
   idThemeEnCours : number;
 
-  themes = [
+  themesSubject = new Subject<any[]>();
+  private themes: any[];
+
+  themesEnfantSubject = new Subject<any[]>();
+  private themesEnfant: any[];
+
+  /*
+  themesTest = [
             { id: 1,
               nom: 'sportives',
               description: 'voitures sportives',
@@ -45,13 +58,35 @@ export class ThemeService {
               idParent: 0,
               imagePath: 'aucune image'
             }
-  ];
+  ]; */
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
+  }
+
+  emitThemesSubject() {
+       this.themesSubject.next(this.themes);
   }
 
   getImageTheme(id: number) {
     return this.themes[id-1].imagePath;
+  }
+
+  getThemes(idParent: number) {
+    let options = {
+               withCredentials: true
+         };
+         this.httpClient
+              .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+              .subscribe(
+                (response) => {
+                  this.themes = response;
+                  console.log('récupération thèmes OK');
+                  this.emitThemesSubject();
+                },
+                (error) => {
+                  console.log('Erreur ! : ' + error);
+                }
+         );
   }
 
 }

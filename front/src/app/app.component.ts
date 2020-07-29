@@ -15,19 +15,25 @@ export class AppComponent implements OnInit, OnDestroy {
   user: any;
   userSubscription : Subscription;
   themes : any[];
+  themesSubscription : Subscription;
 
   constructor(private authService: AuthService, private themeService: ThemeService, private router: Router) { }
 
   ngOnInit() {
-     this.themes = this.themeService.themes;
      this.userSubscription = this.authService.userSubject.subscribe(
                 (user: any) => {
                                   this.user = user;
                                });
      this.authService.emitUserSubject();
+     this.themesSubscription = this.themeService.themesSubject.subscribe(
+                (themes: any[]) => {
+                                      this.themes = themes;
+                                   });
+     this.themeService.emitThemesSubject();
   }
 
    ngOnDestroy() {
+      this.themesSubscription.unsubscribe();
       this.userSubscription.unsubscribe();
    }
 
