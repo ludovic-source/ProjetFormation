@@ -8,14 +8,14 @@ export class ThemeService {
               description: 'voitures sportives',
               niveau: 1,
               idParent: 0,
-              imagePath: 'aucune image'
+              imagePath: 'ferrari.jpeg'
             },
             { id: 2,
               nom: 'compactes',
               description: 'voitures compactes',
               niveau: 1,
               idParent: 0,
-              imagePath: 'aucune image'
+              imagePath: 'mercedes.webp'
             },
             { id: 3,
               nom: 'berlines',
@@ -36,7 +36,7 @@ export class ThemeService {
               description: 'modèles de SUV',
               niveau: 1,
               idParent: 0,
-              imagePath: 'aucune image'
+              imagePath: 'lamborghini.webp'
             },
             { id: 6,
               nom: 'camionnettes',
@@ -49,4 +49,9 @@ export class ThemeService {
 
   constructor() {
   }
+
+  getImageTheme(id: number) {
+    return this.themes[id-1].imagePath;
+  }
+
 }

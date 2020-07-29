@@ -1,1 +1,4 @@
-<p *ngIf="getIsAuth() === true">arbre à dérouler du thème {{ getIdTheme() }}</p>
+
+<article id="bloc_theme" style="background-image: url('/assets/images/{{ getImage() }}');background-repeat: no-repeat;">
+    <p *ngIf="getIsAuth() === true">arbre à dérouler du thème {{ getIdTheme() }}</p>
+</article>

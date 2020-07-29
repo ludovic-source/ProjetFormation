@@ -43,4 +43,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authService.signOut();
    }
 
+   getProfil() {
+      return this.authService.getProfilUser();
+   }
+
 }

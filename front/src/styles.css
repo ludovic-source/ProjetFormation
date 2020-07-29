@@ -78,6 +78,7 @@ nav
 #bloc_theme
 {
 	/*border : 0.5px solid black;*/
+	height : 700px;
 	margin-left: 5px;
 	margin-right: 5px;
 	background-color: #EEEEEE;

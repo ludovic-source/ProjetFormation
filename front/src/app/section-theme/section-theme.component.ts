@@ -27,4 +27,8 @@ export class SectionThemeComponent implements OnInit {
      return this.idTheme;
   }
 
+  getImage() {
+      return this.themeService.getImageTheme(this.route.snapshot.params['id']);
+  }
+
 }

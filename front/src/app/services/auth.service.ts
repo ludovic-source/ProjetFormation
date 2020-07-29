@@ -35,6 +35,7 @@ export class AuthService {
 
   signOut() {
     this.user.isAuth = false;
+    this.logout();
     this.emitUserSubject();
     sessionStorage.clear();
   }
@@ -54,7 +55,8 @@ export class AuthService {
        body.set('password', password);
        let url = 'http://localhost:9095/login';
        let options = {
-           headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+           headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+           withCredentials: true
        };
        console.log("user : " + username);
        this.httpClient.post<boolean>(url, body.toString(), options)
@@ -75,9 +77,28 @@ export class AuthService {
 
   }
 
+  logout() {
+       let body = new URLSearchParams();
+       body.set('username', this.user.username);
+       let url = 'http://localhost:9095/logout';
+       let options = {
+           headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+           withCredentials: true
+       };
+       this.httpClient.post<boolean>(url, body.toString(), options)
+             .subscribe(isValid => {
+                   this.router.navigate(['']);
+               }
+              );
+
+  }
+
   getProfil(username) {
+     let options = {
+           withCredentials: true
+     };
      this.httpClient
-          .get<any>('http://localhost:9095/portailci/utilisateurs/getByUID/' + this.user.username)
+          .get<any>('http://localhost:9095/portailci/utilisateurs/getByUID/' + this.user.username, options)
           .subscribe(
             (response) => {
               this.user.profil = response.profil.nom;
@@ -88,6 +109,10 @@ export class AuthService {
               console.log('Erreur ! : ' + error);
             }
      );
+  }
+
+  getProfilUser() {
+      return this.user.profil;
   }
 
 }
