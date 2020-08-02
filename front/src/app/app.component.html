@@ -39,8 +39,6 @@
   </div>
 </header>
 
-<p>{{ getIsAuth() }}</p>
-
 <nav *ngIf="getIsAuth() === true">
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">

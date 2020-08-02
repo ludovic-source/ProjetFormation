@@ -1,0 +1,34 @@
+<article id="bloc_theme" style="background-image: url('/assets/images/{{ getImage() }}');background-repeat: no-repeat;">
+
+  <div class="bloc_sous_theme">
+    <div class="bloc_lien" *ngFor="let lienNiveau1 of liensNiveau1">
+      <p *ngIf="lienNiveau1.thematique.id == getIdTheme()">{{ lienNiveau1.nom }}</p>
+    </div>
+  </div>
+
+  <div class="bloc_sous_theme" *ngFor="let themeNiveau2 of themesNiveau2">
+    <div class="bloc_titre">
+      <button (click)="getThemesNiveau3EtLiens(themeNiveau2.id)">
+        <h4 *ngIf="themeNiveau2.niveau == 2">{{ themeNiveau2.nom }}</h4>
+      </button>
+    </div>
+    <div class="bloc_lien" *ngFor="let lien of liens">
+      <p *ngIf="lien.thematique.id == themeNiveau2.id">{{ lien.nom }}</p>
+    </div>
+
+    <div class="bloc_sous_sous_theme" *ngFor="let themeNiveau3 of themesNiveau3">
+      <div class="bloc_lien">
+        <button (click)="getLiens(themeNiveau3.id)"
+                *ngIf="themeNiveau3.niveau == 3 && themeNiveau2.id == themeNiveau3.idParent">
+          <h4>{{ themeNiveau3.nom }}</h4>
+        </button>
+        <div *ngFor="let lien of liens">
+          <p *ngIf="lien.thematique.id == themeNiveau3.id
+                    && themeNiveau2.id == themeNiveau3.idParent">{{ lien.nom }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</article>
+

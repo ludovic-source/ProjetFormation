@@ -1,38 +1,30 @@
+<article id="bloc_theme" style="background-image: url('/assets/images/{{ getImage() }}');background-repeat: no-repeat;">
 
-<article id="bloc_theme" style="background-image: url('/assets/images/{{ getImage() }}');background-repeat: no-repeat;opacity: 0.2;">
-    <p *ngIf="getIsAuth() === true">arbre à dérouler du thème {{ getIdTheme() }}</p>
-
-        <div class="bloc_sous_theme">
-          <div class="bloc_titre">
-            <h4>RENAULT</h4>
-          </div>
-          <div class="bloc_lien">
-            <p>Megane</p>
-          </div>
+    <div class="bloc_sous_theme">
+        <div class="bloc_lien" *ngFor="let lienNiveau1 of liensNiveau1">
+            <p *ngIf="lienNiveau1.thematique.id == getIdTheme()">{{ lienNiveau1.nom }}</p>
         </div>
+    </div>
 
-        <div class="bloc_sous_theme">
-          <h4>PEUGEOT</h4>
+    <div class="bloc_sous_theme" *ngFor="let themeNiveau2 of themesNiveau2">
+        <div class="bloc_titre">
+            <h4 *ngIf="themeNiveau2.niveau == 2">{{ themeNiveau2.nom }}</h4>
+        </div>
+        <!--
+        <div class="bloc_lien" *ngFor="let lien of liens">
+            <p *ngIf="lien.thematique.id == themeNiveau2.id">{{ lien.nom }}</p>
+        </div>
+        -->
+        <div class="bloc_sous_sous_theme" *ngFor="let themeNiveau3 of themesNiveau3">
           <div class="bloc_lien">
-            <p>concept car</p>
-          </div>
-          <div class="bloc_sous_sous_theme">
-            <div class="bloc_lien">
-              <h4>compacts</h4>
-              <p>108</p>
+            <h4 *ngIf="themeNiveau3.niveau == 3">{{ themeNiveau3.nom }}</h4>
+            <!--
+            <div *ngFor="let lien of liens">
+              <p *ngIf="lien.thematique.id == themeNiveau3.id">{{ lien.nom }}</p>
             </div>
+            -->
           </div>
         </div>
-
-        <div class="bloc_sous_theme">
-          <h4>CITROEN</h4>
-          <div class="bloc_lien">
-            <p>C1</p>
-            <p>C2</p>
-            <p>C3</p>
-            <p>C4 Picasso</p>
-            <p>C5</p>
-          </div>
-        </div>
+    </div>
 
 </article>

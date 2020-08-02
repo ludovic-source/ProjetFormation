@@ -22,7 +22,7 @@ export class AuthService {
   themesSubscription : Subscription;
 
   constructor(private httpClient: HttpClient, private themeService: ThemeService, private router: Router) {
-
+  //constructor(private httpClient: HttpClient, private router: Router) {
   }
 
   emitUserSubject() {
@@ -116,6 +116,11 @@ export class AuthService {
       return this.user.profil;
   }
 
+  // permet de récupérer les thèmes pour les afficher dans le menu - cette opération ne peut se faire que quand
+  //       l'utilisateur est authentitifié.
+  // Au départ je voulais le faire dans SectionArticleConnexionComponent.ts, mais la fonction await ne permet pas une
+  //       bonne gestion de la synchronisation pour les cas où le mot de passe a été erronée. L'utilisateur est
+  //       obligé de resaisir son mot de passe.
   preparationMenuNav() {
       this.themeService.getThemes(0);
       this.themesSubscription = this.themeService.themesSubject.subscribe(

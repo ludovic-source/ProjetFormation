@@ -6,7 +6,7 @@
   UOAffectation: string;
   siteExercice: string;
   fonction : string;
-  profil : any
+  profil : any;
 
   getUID() {
     return this.UID;

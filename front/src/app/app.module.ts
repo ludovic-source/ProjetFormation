@@ -7,16 +7,19 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SectionArticleConnexionComponent } from './section-article-connexion/section-article-connexion.component';
+import { SectionComponent } from './section/section.component';
 import { SectionThemeComponent } from './section-theme/section-theme.component';
+
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { ThemeService } from './services/theme.service';
+import { LienService } from './services/lien.service';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
-//import {TokenInterceptor} from './interceptor/token.interceptor';
+import { SectionThemeArbreComponent } from './section-theme-arbre/section-theme-arbre.component';
 
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
-  { path: 'theme/:id', canActivate: [AuthGuard], component: SectionThemeComponent },
+  { path: 'theme/:id', canActivate: [AuthGuard], component: SectionComponent },
   { path: '', component: SectionArticleConnexionComponent }
 ];
 
@@ -24,7 +27,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     SectionArticleConnexionComponent,
-    SectionThemeComponent
+    SectionThemeComponent,
+    SectionComponent,
+    SectionThemeArbreComponent
   ],
   imports: [
     BrowserModule,
@@ -37,8 +42,8 @@ const appRoutes: Routes = [
     AuthGuard,
     AuthService,
     ThemeService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-//    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    LienService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

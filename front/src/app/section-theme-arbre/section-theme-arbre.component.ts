@@ -5,13 +5,12 @@ import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
 
 @Component({
-  selector: 'app-section-theme',
-  templateUrl: './section-theme.component.html',
-  styleUrls: ['./section-theme.component.css']
+  selector: 'app-section-theme-arbre',
+  templateUrl: './section-theme-arbre.component.html',
+  styleUrls: ['./section-theme-arbre.component.css']
 })
-export class SectionThemeComponent implements OnInit {
-
-  @Input() idTheme: number;
+export class SectionThemeArbreComponent implements OnInit {
+@Input() idTheme: number;
 
   themesNiveau2: any[];
   themesNiveau2Subscription : Subscription;
@@ -21,6 +20,9 @@ export class SectionThemeComponent implements OnInit {
 
   liensNiveau1: any[];
   liensNiveau1Subscription: Subscription;
+
+  liens: any[];
+  liensSubscription: Subscription;
 
   constructor(private authService: AuthService,
               private themeService: ThemeService,
@@ -42,10 +44,14 @@ export class SectionThemeComponent implements OnInit {
                                             this.liensNiveau1 = liens;
                                          });
       this.lienService.emitLiensNiveau1Subject();
+      this.liensSubscription = this.lienService.liensSubject.subscribe(
+                       (liens: any[]) => {
+                                            this.liens = liens;
+                                         });
+      this.lienService.emitLiensSubject();
   }
 
   ngOnChanges(): void {
-      this.initThemeNiveau3();
       this.constructionArbre().then(() => console.log('résolution promise OK'));
   }
 
@@ -64,18 +70,8 @@ export class SectionThemeComponent implements OnInit {
   async constructionArbre() {
       console.log('section-theme / idTheme : ' + this.idTheme);
       this.themesNiveau2 = await this.recuperationThematiquesNiveau2();
+      // récupération des liens directements rattachés au thème niveau 1
       this.liensNiveau1 = await this.recuperationLiensNiveau1();
-      for (let theme of this.themesNiveau2) {
-          this.themesNiveau3 = await this.recuperationThematiquesNiveau3(theme.id);
-      }
-  }
-
-  initThemeNiveau3() {
-      if (this.themesNiveau3 === undefined) {
-           console.log('liste theme niveau 3 déjà vide');
-      } else {
-           this.themeService.initThemeNiveau3Subject();
-      }
   }
 
   recuperationThematiquesNiveau2() {
@@ -83,13 +79,19 @@ export class SectionThemeComponent implements OnInit {
       return Promise.resolve(this.themeService.getThemesNiveau2(this.idTheme));
   }
 
-  recuperationThematiquesNiveau3(idThemeNiveau2: number) {
+  getThemesNiveau3EtLiens(idThemeNiveau2: number) {
       console.log('section-theme / idTheme : ' + idThemeNiveau2);
-      return Promise.resolve(this.themeService.getThemesNiveau3(idThemeNiveau2));
+      this.themesNiveau3 = this.themeService.getThemesNiveau3(idThemeNiveau2);
+      this.liens = this.lienService.getLiens(idThemeNiveau2);
   }
 
   recuperationLiensNiveau1() {
       return Promise.resolve(this.lienService.getLiensNiveau1(this.idTheme));
+  }
+
+  getLiens(idTheme: number) {
+      console.log('getLiens avec idTheme =  ' + idTheme);
+      this.liens = this.lienService.getLiens(idTheme);
   }
 
 }
