@@ -8,6 +8,9 @@ export class ThemeService {
 
   idThemeEnCours : number;
 
+  allThematiquesSubject = new Subject<any[]>();
+  private allThematiques: any[];
+
   themesSubject = new Subject<any[]>();
   private themes: any[];
 
@@ -78,6 +81,10 @@ export class ThemeService {
       this.themesNiveau3Subject.next(this.themesNiveau3);
   }
 
+  emitAllThematiquesSubject() {
+      this.allThematiquesSubject.next(this.allThematiques);
+  }
+
   getImageTheme(id: number) {
     return this.themes[id-1].imagePath;
   }
@@ -133,10 +140,6 @@ export class ThemeService {
                     (response) => {
                       this.themesNiveau3 = response;
                       this.emitThemesNiveau3Subject();
-                      //for (let theme of response) {
-                      //   this.themesNiveau3.push(theme);
-                      //   this.emitThemesNiveau3Subject();
-                      //}
                     },
                     (error) => {
                       console.log('Erreur ! : ' + error);
@@ -144,5 +147,87 @@ export class ThemeService {
                   );
        return this.themesNiveau3;
    }
+
+/*
+   getThematique(idThematique: number): any{
+       let options = {
+                   withCredentials: true
+       };
+       this.httpClient
+                  .get<any>('http://localhost:9095/portailci/thematique/find/' + idThematique, options)
+                  .subscribe(
+                    (response) => {
+                      this.thematique = response;
+                      console.log('getThematique - thematique trouvée : ' + this.thematique.nom);
+                    },
+                    (error) => {
+                      console.log('Erreur ! : ' + error);
+                    }
+                  );
+       return this.thematique;
+   }
+*/
+  getAllThematiques(): any[] {
+
+       let options = {
+                   withCredentials: true
+       };
+
+       // récupérer les thématiques de niveau 1 (thème)
+       this.httpClient
+            .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + 0, options)
+            .subscribe(
+                (response) => {
+                     this.allThematiques = response;
+                     for (let thematique of response) {
+                        this.getThematiquesNiveau2(thematique.id);
+                     }
+                     this.emitAllThematiquesSubject();
+                },
+                (error) => {
+                     console.log('Erreur ! : ' + error);
+                }
+            );
+       return this.allThematiques;
+  }
+
+  getThematiquesNiveau2(idParent: number) {
+      let options = {
+                   withCredentials: true
+      };
+      // récupérer les thématiques de niveau 2 (sous-thèmes)
+      this.httpClient
+           .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+           .subscribe(
+               (response) => {
+                    for (let thematique of response) {
+                       this.allThematiques.push(thematique);
+                       this.getThematiquesNiveau3(thematique.id);
+                    }
+               },
+               (error) => {
+                    console.log('Erreur ! : ' + error);
+               }
+           );
+  }
+
+  getThematiquesNiveau3(idParent: number) {
+      let options = {
+                   withCredentials: true
+      };
+      // récupérer les thématiques de niveau 3 (sous sous-thèmes)
+      this.httpClient
+           .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+           .subscribe(
+               (response) => {
+                    for (let thematique of response) {
+                       this.allThematiques.push(thematique);
+                    }
+               },
+               (error) => {
+                    console.log('Erreur ! : ' + error);
+               }
+           );
+  }
 
 }

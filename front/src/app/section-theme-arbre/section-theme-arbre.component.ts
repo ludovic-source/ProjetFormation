@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../services/auth.service';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
+import { EditionService } from '../services/edition.service';
 
 @Component({
   selector: 'app-section-theme-arbre',
@@ -10,7 +11,10 @@ import { LienService } from '../services/lien.service';
   styleUrls: ['./section-theme-arbre.component.css']
 })
 export class SectionThemeArbreComponent implements OnInit {
-@Input() idTheme: number;
+
+  @Input() idTheme: number;
+
+  idThemeNiveauOuvert: number;
 
   themesNiveau2: any[];
   themesNiveau2Subscription : Subscription;
@@ -24,9 +28,18 @@ export class SectionThemeArbreComponent implements OnInit {
   liens: any[];
   liensSubscription: Subscription;
 
+  isModeEdition: boolean;
+  isModeEditionSubscription : Subscription;
+
+  isEditionTheme = false;
+  isEditionLien = true;
+
+  //thematiqueUpdate: any;
+
   constructor(private authService: AuthService,
               private themeService: ThemeService,
-              private lienService: LienService) { }
+              private lienService: LienService,
+              private editionService: EditionService) { }
 
   ngOnInit(): void {
       this.themesNiveau2Subscription = this.themeService.themesNiveau2Subject.subscribe(
@@ -49,6 +62,11 @@ export class SectionThemeArbreComponent implements OnInit {
                                             this.liens = liens;
                                          });
       this.lienService.emitLiensSubject();
+      this.isModeEditionSubscription = this.editionService.isModeEditionSubject.subscribe(
+                      (isModeEdition: boolean) => {
+                                                     this.isModeEdition = isModeEdition;
+                                                  });
+      this.editionService.emitIsModeEditionSubject();
   }
 
   ngOnChanges(): void {
@@ -80,6 +98,7 @@ export class SectionThemeArbreComponent implements OnInit {
   }
 
   getThemesNiveau3EtLiens(idThemeNiveau2: number) {
+      this.idThemeNiveauOuvert = idThemeNiveau2;
       console.log('section-theme / idTheme : ' + idThemeNiveau2);
       this.themesNiveau3 = this.themeService.getThemesNiveau3(idThemeNiveau2);
       this.liens = this.lienService.getLiens(idThemeNiveau2);
@@ -90,8 +109,16 @@ export class SectionThemeArbreComponent implements OnInit {
   }
 
   getLiens(idTheme: number) {
+        this.idThemeNiveauOuvert = idTheme;
       console.log('getLiens avec idTheme =  ' + idTheme);
       this.liens = this.lienService.getLiens(idTheme);
   }
+
+/*
+  modifierThematique(thematiqueUpdate: any) {
+    this.isEditionTheme = true;
+    this.thematiqueUpdate = thematiqueUpdate;
+  }
+*/
 
 }

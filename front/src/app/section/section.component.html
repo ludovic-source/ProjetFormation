@@ -1,5 +1,5 @@
 
-<app-section-theme-arbre *ngIf="getIsAuth() === true"
+<app-section-theme-arbre *ngIf="getIsAuth() === true && isModeEdition != true"
                     [idTheme]=getIdTheme()></app-section-theme-arbre>
 
-<!-- IL FAUDRA AJOUTER ICI LE MODULE EDITION LORSQUE IsEdition === true -->
+<app-section-theme-edition *ngIf="isModeEdition === true"></app-section-theme-edition>

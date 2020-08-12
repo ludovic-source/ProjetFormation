@@ -19,7 +19,7 @@
     <!-- lorsque l'utilisateur est déjà connecté, le lien ne pointe plus sur la page Connexion
       mais juste une info bulle pour indiquer le prenom et le nom de l'utilisateur connecté ou déconnexion -->
     <p class="connexion" *ngIf="getIsAuth() === true">
-      <button (click)="onSignOut()">
+      <button class="button_menu" (click)="onSignOut()">
         <img src="/assets/images/person24px.svg" alt="déconnexion" title="se déconnecter">
       </button>
     </p>
@@ -29,9 +29,20 @@
       </a>
     </p>
     <!-- pour les utilisateurs de type Admin et de type 2 lorsqu'ils sont déjà connectés.
-    Lorsque l'utilisateur n'est pas connecté, on affiche pas l'icône -->
-    <p id="edition" *ngIf="getIsAuth() === true && ( getProfil() === 'Administrateur' || getProfil() === 'Rédacteur' )">
-      <a href="maquetteEdition.html"><img src="/assets/images/pencil24px.svg" alt="mode édition de liens" title="mode édition de liens"></a>
+    Lorsque l'utilisateur n'est pas connecté, on n'affiche pas l'icône -->
+    <p id="edition" *ngIf="getIsAuth() === true
+                           && ( getProfil() === 'Administrateur' || getProfil() === 'Rédacteur' )">
+      <!-- <a href="maquetteEdition.html"><img src="/assets/images/pencil24px.svg" alt="mode édition de liens" title="mode édition de liens"></a> -->
+      <button class="button_menu" *ngIf="isModeEdition != true" (click)="activerModeEdition()">
+        <img src="/assets/images/pencil24px.svg"
+             alt="activer le mode édition de liens"
+             title="activer le mode édition de liens">
+      </button>
+      <button class="button_menu" *ngIf="isModeEdition === true" (click)="desactiverModeEdition()">
+          <img src="/assets/images/pencil24px.svg"
+               alt="désactiver le mode édition de liens"
+               title="désactiver le mode édition de liens">
+      </button>
     </p>
     <p id="parametrage" *ngIf="getIsAuth() === true && getProfil() === 'Administrateur'">
       <a href="maquetteParametrage.html"><img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="mode paramétrage"></a>
@@ -43,7 +54,7 @@
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">
     <a routerLink="theme/{{ theme.id }}">
-      <h3 title="{{ theme.description }}">{{ theme.nom }}</h3>
+      <h3 *ngIf="isModeEdition != true" title="{{ theme.description }}">{{ theme.nom }}</h3>
     </a>
   </div>
 </nav>

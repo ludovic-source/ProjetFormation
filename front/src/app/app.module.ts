@@ -8,14 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SectionArticleConnexionComponent } from './section-article-connexion/section-article-connexion.component';
 import { SectionComponent } from './section/section.component';
-import { SectionThemeComponent } from './section-theme/section-theme.component';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { ThemeService } from './services/theme.service';
 import { LienService } from './services/lien.service';
+import { EditionService } from './services/edition.service';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { SectionThemeArbreComponent } from './section-theme-arbre/section-theme-arbre.component';
+import { SectionThemeEditionComponent } from './section-theme-edition/section-theme-edition.component';
 
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
@@ -27,9 +28,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     SectionArticleConnexionComponent,
-    SectionThemeComponent,
     SectionComponent,
-    SectionThemeArbreComponent
+    SectionThemeArbreComponent,
+    SectionThemeEditionComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
     AuthService,
     ThemeService,
     LienService,
+    EditionService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { ThemeService } from './services/theme.service';
+import { EditionService } from './services/edition.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,15 +12,27 @@ styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  isModeEdition: boolean;
+  isModeEditionSubscription : Subscription;
+  isModeParametrage = false;
+
   title = 'portailci';
   user: any;
   userSubscription : Subscription;
   themes : any[];
   themesSubscription : Subscription;
 
-  constructor(private authService: AuthService, private themeService: ThemeService, private router: Router) { }
+  constructor(private authService: AuthService,
+              private editionService: EditionService,
+              private themeService: ThemeService,
+              private router: Router) { }
 
   ngOnInit() {
+     this.isModeEditionSubscription = this.editionService.isModeEditionSubject.subscribe(
+                (isModeEdition: boolean) => {
+                                  this.isModeEdition = isModeEdition;
+                               });
+     this.editionService.emitIsModeEditionSubject();
      this.userSubscription = this.authService.userSubject.subscribe(
                 (user: any) => {
                                   this.user = user;
@@ -52,5 +65,23 @@ export class AppComponent implements OnInit, OnDestroy {
    getProfil() {
       return this.authService.getProfilUser();
    }
+
+   activerModeEdition() {
+      this.isModeParametrage = false;
+      this.editionService.activerModeEdition();
+   }
+
+   desactiverModeEdition() {
+      this.editionService.desactiverModeEdition();
+   }
+   activerModeParametrage() {
+      this.isModeParametrage = true;
+      this.editionService.desactiverModeEdition();
+   }
+
+   desactiverModeParametrage() {
+      this.isModeParametrage = false;
+   }
+
 
 }
