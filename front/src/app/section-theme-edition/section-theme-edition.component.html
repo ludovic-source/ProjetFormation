@@ -35,23 +35,34 @@
            (change)="setTypeModification('delete')"/>Supprimer une thematique existante<br />
   </div>
 
-  <div *ngIf="typeModification == 'update' && typeObjet==='thematique'"
+  <div *ngIf="typeModification == 'create' && typeObjet==='thematique'"
        class="bloc_module_edition_saisie">
-    <form method="post" action="vers serviceLien.ts d'Angular">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <p><em>Sélectionnez : </em></p>
       <p>
-        <label for="theme">Nom du thème : </label>
-        <select name="theme" id="theme" (change)="setThematiqueNiveau1($event)">
-          <option [ngValue]="thematique"
-                  *ngFor="let thematique of allThematiques">{{ thematique.nom }}</option>
+        <label for="theme">nom du thème : </label>
+        <select id="theme" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel>
+          <option></option>
+          <option [ngValue]="thematique.id"
+                  *ngFor="let thematique of allThematiques">{{ thematique.nom}}</option>
+        </select>
+        <br />
+      </p>
+      <p>
+        <label for="theme">nom du sous-thème : </label>
+        <select name="sous_theme" id="sous_theme" (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
+          <option [ngValue]="thematique.id"
+                  *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
         </select><br />
       </p>
       <p>
-        <label for="theme">Nom du sous-thème : </label>
-        <select name="sous_theme" id="sous_theme">
-          <option value="thematique.nom" *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
+        <label for="theme">nom du sous sous-thème : </label>
+        <select name="sous_sous_theme" id="sous_sous_theme">
+          <option value="thematique.id"
+                  *ngFor="let thematique of thematiquesNiveau3">{{ thematique.nom }}</option>
         </select><br />
       </p>
-
+      <button type="submit">Créer</button>
     </form>
   </div>
 

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
@@ -10,8 +11,8 @@ import { LienService } from '../services/lien.service';
 })
 export class SectionThemeEditionComponent implements OnInit {
 
-  thematiqueNiveau1: any;
-  thematiqueNiveau2: any;
+  idThematiqueNiveau1: any;
+  idThematiqueNiveau2: any;
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
 
@@ -33,7 +34,6 @@ export class SectionThemeEditionComponent implements OnInit {
   }
 
   ngOnChanges() {
-
   }
 
   setTypeModification(typeModification: string) {
@@ -52,10 +52,28 @@ export class SectionThemeEditionComponent implements OnInit {
       this.allThematiques = this.themeService.getAllThematiques();
   }
 
-  setThematiqueNiveau1(thematique: any) {
-      console.log('coucou');
-      this.thematiqueNiveau1 = thematique;
-      this.thematiquesNiveau2 = this.themeService.getThemesNiveau2(thematique.id);
+  setThematiqueNiveau1(idThematique: number) {
+      this.idThematiqueNiveau1 = idThematique;
+      this.thematiquesNiveau2 = [];
+      for (let thematique of this.allThematiques) {
+          if (thematique.idParent == idThematique) {
+              this.thematiquesNiveau2.push(thematique);
+          }
+      }
+  }
+
+  setThematiqueNiveau2(idThematique: number) {
+      this.idThematiqueNiveau2 = idThematique;
+      this.thematiquesNiveau3 = [];
+      for (let thematique of this.allThematiques) {
+          if (thematique.idParent == idThematique) {
+              this.thematiquesNiveau3.push(thematique);
+          }
+      }
+  }
+
+  onSubmit(form: NgForm) {
+      console.log(form.value);
   }
 
 }
