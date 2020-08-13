@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Thematique } from '../models/Thematique';
 
 @Injectable()
 export class ThemeService {
@@ -148,25 +149,6 @@ export class ThemeService {
        return this.themesNiveau3;
    }
 
-/*
-   getThematique(idThematique: number): any{
-       let options = {
-                   withCredentials: true
-       };
-       this.httpClient
-                  .get<any>('http://localhost:9095/portailci/thematique/find/' + idThematique, options)
-                  .subscribe(
-                    (response) => {
-                      this.thematique = response;
-                      console.log('getThematique - thematique trouvée : ' + this.thematique.nom);
-                    },
-                    (error) => {
-                      console.log('Erreur ! : ' + error);
-                    }
-                  );
-       return this.thematique;
-   }
-*/
   getAllThematiques(): any[] {
 
        let options = {
@@ -228,6 +210,13 @@ export class ThemeService {
                     console.log('Erreur ! : ' + error);
                }
            );
+  }
+
+  createThematique(thematique: Thematique) {
+      console.log(thematique.nom);
+      console.log(thematique.description);
+      console.log(thematique.niveau);
+      console.log(thematique.idParent);
   }
 
 }
