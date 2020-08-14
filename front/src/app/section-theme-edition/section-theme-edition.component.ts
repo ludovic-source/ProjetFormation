@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
@@ -25,8 +26,11 @@ export class SectionThemeEditionComponent implements OnInit {
   allThematiques: any[];
   allThematiquesSubscription: Subscription;
 
+  //messageReponseFormulaire: string;
+
   constructor(private themeService: ThemeService,
-              private lienService: LienService) { }
+              private lienService: LienService,
+              private router: Router) { }
 
   ngOnInit(): void {
       this.allThematiquesSubscription = this.themeService.allThematiquesSubject.subscribe(
@@ -84,27 +88,41 @@ export class SectionThemeEditionComponent implements OnInit {
   createThematique(form: NgForm) {
       console.log(form.value);
       const thematique = new Thematique;
-      //thematique.setNom(form.value['nom']);
       thematique.nom = form.value['nom'];
-      //thematique.setDescription(form.value['description']);
       thematique.description = form.value['description'];
-      //thematique.setNiveau(form.value['niveau_thematique_create']);
       thematique.niveau = form.value['niveau_thematique_create'];
       if (form.value['niveau_thematique_create'] == 1) {
-          //thematique.setIdParent(0);
           thematique.idParent = 0;
           // reste à traiter les images pour les thèmes
       }
       if (form.value['niveau_thematique_create'] == 2) {
-          //thematique.setIdParent(form.value['theme.id']);
-          thematique.idParent = form.value['theme.id'];
+          thematique.idParent = form.value['theme'];
       }
       if (form.value['niveau_thematique_create'] == 3) {
-          //thematique.setIdParent(form.value['sous_theme.id']);
-          thematique.idParent = form.value['sous_theme.id'];
+          thematique.idParent = form.value['sous_theme'];
       }
-      this.themeService.createThematique(thematique);
+      thematique.imagePath = '';
+      var thematiqueCreate: any;
+      thematiqueCreate = this.themeService.createThematique(thematique);
+      this.revenirDebutFormulaire();
+  }
 
+  revenirDebutFormulaire() {
+      this.typeObjet = '';
+      this.typeModification = '';
+      this.niveauThematiqueCreate = 0;
+  }
+
+  deleteThematique(form: NgForm) {
+      console.log(form.value);
+      var thematique = new Thematique;
+      thematique = form.value['thematiqueDelete'];
+      if (confirm('Souhaitez-vous supprimer la thématique ' + thematique.nom + ' ?')) {
+          this.themeService.deleteThematique(thematique);
+      } else {
+          console.log('confirmation de suppression thématique négative');
+          this.revenirDebutFormulaire();
+      }
   }
 
 }

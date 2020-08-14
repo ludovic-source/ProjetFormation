@@ -13,6 +13,7 @@
     </p>
   </div>
 
+  <!-- Formulaires pour les liens -->
   <div class="bloc_module_edition_choix" *ngIf="typeObjet==='lien'">
     <p>Quel type de modification souhaitez-vous ?</p>
     <input type="radio" value="create" name="type_modification"
@@ -25,6 +26,7 @@
            (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
   </div>
 
+  <!-- Formulaires pour les thématiques -->
   <div class="bloc_module_edition_choix" *ngIf="typeObjet==='thematique'">
     <p>Quel type de modification souhaitez-vous ?</p>
     <input type="radio" value="create" name="type_modification"
@@ -35,20 +37,22 @@
            (change)="setTypeModification('delete')"/>Supprimer une thematique existante<br />
   </div>
 
+  <!-- création thématique -->
   <div *ngIf="typeModification == 'create' && typeObjet==='thematique'"
        class="bloc_module_edition_saisie">
     <form (ngSubmit)="createThematique(f)" #f="ngForm">
       <p>Quel niveau de thématique souhaitez-vous créer ?</p>
       <input type="radio" value="1" name="niveau_thematique_create"
-             (change)="setNiveauThematiqueCreate(1)"/>un thème<br />
+             (change)="setNiveauThematiqueCreate(1)" ngModel/>un thème<br />
       <input type="radio" value="2" name="niveau_thematique_create"
-             (change)="setNiveauThematiqueCreate(2)"/>un sous-thème<br />
+             (change)="setNiveauThematiqueCreate(2)" ngModel/>un sous-thème<br />
       <input type="radio" value="3" name="niveau_thematique_create"
-             (change)="setNiveauThematiqueCreate(3)"/>un sous sous-thème<br />
-      <p><em>Sélectionnez : </em></p>
-      <p>
+             (change)="setNiveauThematiqueCreate(3)" ngModel/>un sous sous-thème<br />
+
+      <p *ngIf="niveauThematiqueCreate === 2 || niveauThematiqueCreate === 3">
+        <em>Sélectionnez : </em><br /><br />
         <label for="theme">nom du thème : </label>
-        <select id="theme" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel>
+        <select id="theme" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
           <ng-container *ngFor="let thematique of allThematiques">
             <option [ngValue]="thematique.id"
                     *ngIf="thematique.niveau === 1">{{ thematique.nom}}</option>
@@ -56,21 +60,23 @@
         </select>
         <br />
       </p>
-      <p *ngIf="niveauThematiqueCreate === 2 || niveauThematiqueCreate === 3">
+      <p *ngIf="niveauThematiqueCreate === 3">
         <label for="sous_theme">nom du sous-thème : </label>
-        <select name="sous_theme" id="sous_theme" (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
+        <select name="sous_theme" id="sous_theme" (ngModelChange)="setThematiqueNiveau2($event)" ngModel required>
           <option [ngValue]="thematique.id"
                   *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
         </select><br />
       </p>
-      <p *ngIf="niveauThematiqueCreate === 3">
+      <!--
+      <p *ngIf="niveauThematiqueCreate === 4">
         <label for="sous_sous_theme">nom du sous sous-thème : </label>
         <select name="sous_sous_theme" id="sous_sous_theme">
           <option value="thematique.id"
                   *ngFor="let thematique of thematiquesNiveau3">{{ thematique.nom }}</option>
         </select><br />
       </p>
-      <p>
+      -->
+      <p *ngIf="niveauThematiqueCreate === 1 || niveauThematiqueCreate === 2 || niveauThematiqueCreate === 3">
         <label for="nom">nom court : </label>
         <input type="text" id="nom" name="nom" ngModel required>
         <label for="description"> description : </label>
@@ -80,9 +86,29 @@
         <label for="image">Image thématique :</label>
         <input type="file" name="image" id="image" accept="image/png, image/jpeg">
       </p>
-      <button type="submit">Créer</button>
+      <button type="submit" [disabled]="f.invalid"
+              *ngIf="niveauThematiqueCreate === 1
+              || niveauThematiqueCreate === 2
+              || niveauThematiqueCreate === 3">Créer</button>
     </form>
   </div>
 
+  <!-- suppression thématique -->
+  <div *ngIf="typeModification == 'delete' && typeObjet==='thematique'"
+       class="bloc_module_edition_saisie">
+    <form (ngSubmit)="deleteThematique(f)" #f="ngForm">
+      <p>Quelle thématique souhaitez-vous supprimer ?</p>
+      <p>
+        <label for="thematiqueDelete">nom du thème : </label>
+        <select id="thematiqueDelete" name="thematiqueDelete" ngModel required>
+          <ng-container *ngFor="let thematique of allThematiques">
+            <option [ngValue]="thematique">N{{ thematique.niveau }} - {{ thematique.nom}}</option>
+          </ng-container>
+        </select>
+        <br />
+      </p>
+      <button type="submit" [disabled]="f.invalid">Supprimer</button>
+    </form>
+  </div>
 
 </article>

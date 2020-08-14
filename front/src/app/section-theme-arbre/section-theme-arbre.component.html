@@ -9,8 +9,10 @@
                   && lienNiveau1.statut == 'publié'">
           <a *ngIf="lienNiveau1.mode_affichage == false"
              href="{{ lienNiveau1.url }}"
+             title="{{ lienNiveau1.description }}"
              target="_blank">{{ lienNiveau1.nom }}</a>
           <a *ngIf="lienNiveau1.mode_affichage == true"
+             title="{{ lienNiveau1.description }}"
              href="{{ lienNiveau1.url }}">{{ lienNiveau1.nom }}</a>
           <!--
           <img *ngIf="isModeEdition === true"
@@ -26,6 +28,7 @@
       <div class="bloc_titre">
         <a class="button_theme"
                 *ngIf="themeNiveau2.niveau == 2"
+                title="{{ themeNiveau2.description }}"
                 (click)="getThemesNiveau3EtLiens(themeNiveau2.id)">
           <h4>{{ themeNiveau2.nom }}</h4>
         </a>
@@ -42,8 +45,10 @@
                   && lien.statut == 'publié'">
           <a *ngIf="lien.mode_affichage == false"
              href="{{ lien.url }}"
+             title="{{ lien.description }}"
              target="_blank">{{ lien.nom }}</a>
           <a *ngIf="lien.mode_affichage == true"
+             title="{{ lien.description }}"
              href="{{ lien.url }}">{{ lien.nom }}</a>
           <!--
           <img *ngIf="isModeEdition === true"
@@ -59,6 +64,7 @@
           <div class="bloc_titre">
             <a class="button_theme"
                     *ngIf="themeNiveau3.niveau == 3 && themeNiveau2.id == themeNiveau3.idParent"
+                    title="{{ themeNiveau2.description }}"
                     (click)="getLiens(themeNiveau3.id)">
               <h4>{{ themeNiveau3.nom }}</h4>
             </a>
@@ -77,8 +83,10 @@
                       && lien.statut == 'publié'">
               <a *ngIf="lien.mode_affichage == false"
                  href="{{ lien.url }}"
+                 title="{{ lien.description }}"
                  target="_blank">{{ lien.nom }}</a>
               <a *ngIf="lien.mode_affichage == true"
+                 title="{{ lien.description }}"
                  href="{{ lien.url }}">{{ lien.nom }}</a>
               <!--
               <img *ngIf="isModeEdition === true"

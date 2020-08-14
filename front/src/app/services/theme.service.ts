@@ -212,11 +212,49 @@ export class ThemeService {
            );
   }
 
-  createThematique(thematique: Thematique) {
-      console.log(thematique.nom);
-      console.log(thematique.description);
-      console.log(thematique.niveau);
-      console.log(thematique.idParent);
+  createThematique(thematique: Thematique): any {
+      let options = {
+                   withCredentials: true
+      };
+      // Créer une thematique
+      this.httpClient
+           .post<any>('http://localhost:9095/portailci/thematique/create', thematique, options)
+           .subscribe(
+               (response) => {
+                    console.log('création thematique OK');
+                    alert('thématique ' + response.nom + ' créée');
+                    if (response.niveau == 1) {
+                        this.themes.push(response);
+                        this.emitThemesSubject();
+                    }
+                    return response;
+               },
+               (error) => {
+                    alert('thématique non créée');
+                    console.log('Erreur ! : ' + error);
+               }
+           );
+  }
+
+  deleteThematique(thematique: Thematique) {
+      var idThematique = thematique.id;
+      console.log('id thématique à supprimer: ' + idThematique);
+      let options = {
+                   withCredentials: true
+      };
+      // Supprimer une thematique
+      this.httpClient
+           .delete('http://localhost:9095/portailci/thematique/delete/' + idThematique, options)
+           .subscribe(
+               () => {
+                    console.log('création thematique OK');
+                    alert('thématique ' + thematique.nom + ' supprimée');
+               },
+               (error) => {
+                    alert('thématique non supprimée');
+                    console.log('Erreur ! : ' + error);
+               }
+           );
   }
 
 }

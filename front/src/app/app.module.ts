@@ -21,6 +21,7 @@ import { SectionThemeEditionComponent } from './section-theme-edition/section-th
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
   { path: 'theme/:id', canActivate: [AuthGuard], component: SectionComponent },
+  { path: 'edition', canActivate: [AuthGuard], component: SectionThemeEditionComponent },
   { path: '', component: SectionArticleConnexionComponent }
 ];
 
