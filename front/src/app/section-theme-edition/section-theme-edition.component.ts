@@ -22,9 +22,14 @@ export class SectionThemeEditionComponent implements OnInit {
   typeObjet: string;
   typeModification: string;
   niveauThematiqueCreate: number;
+  indicateurUpdate: boolean;
 
   allThematiques: any[];
   allThematiquesSubscription: Subscription;
+
+  thematiqueUpdate: any;
+  thematiqueUpdateN1: any;
+  thematiqueUpdateN2: any;
 
   //messageReponseFormulaire: string;
 
@@ -111,6 +116,7 @@ export class SectionThemeEditionComponent implements OnInit {
       this.typeObjet = '';
       this.typeModification = '';
       this.niveauThematiqueCreate = 0;
+      this.indicateurUpdate = false;
   }
 
   deleteThematique(form: NgForm) {
@@ -121,8 +127,50 @@ export class SectionThemeEditionComponent implements OnInit {
           this.themeService.deleteThematique(thematique);
       } else {
           console.log('confirmation de suppression thématique négative');
-          this.revenirDebutFormulaire();
       }
+      this.revenirDebutFormulaire();
+  }
+
+  setUpdateThematique(thematique) {
+      this.thematiqueUpdate = thematique;
+      this.indicateurUpdate = true;
+      if (this.thematiqueUpdate.niveau == 2) {
+          for (let theme of this.allThematiques) {
+              if (theme.id == this.thematiqueUpdate.idParent) {
+                  this.thematiqueUpdateN1 = theme;
+              }
+          }
+      }
+      if (this.thematiqueUpdate.niveau == 3) {
+          for (let theme of this.allThematiques) {
+              if (theme.id == this.thematiqueUpdate.idParent) {
+                  this.thematiqueUpdateN2 = theme;
+              }
+          }
+          for (let theme of this.allThematiques) {
+              if (theme.id == this.thematiqueUpdateN2.idParent) {
+                  this.thematiqueUpdateN1 = theme;
+              }
+          }
+      }
+  }
+
+  updateThematique(form: NgForm) {
+      console.log(form.value);
+      const thematique = new Thematique;
+      thematique.id = this.thematiqueUpdate.id;
+      thematique.nom = form.value['nom'];
+      thematique.description = form.value['description'];
+      thematique.niveau = this.thematiqueUpdate.niveau;
+      thematique.idParent = this.thematiqueUpdate.idParent;
+      thematique.imagePath = this.thematiqueUpdate.imagePath;
+      var thematiqueCreate: any;
+      thematiqueCreate = this.themeService.updateThematique(thematique);
+      this.revenirDebutFormulaire();
+
+      //reste à faire la modification de l'image + la modification du thème/sous-thème parent
+
+
   }
 
 }

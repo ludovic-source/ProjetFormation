@@ -247,11 +247,54 @@ export class ThemeService {
            .delete('http://localhost:9095/portailci/thematique/delete/' + idThematique, options)
            .subscribe(
                () => {
-                    console.log('création thematique OK');
+                    console.log('suppression thematique OK');
                     alert('thématique ' + thematique.nom + ' supprimée');
+                    // supprimer la thématique qsi niveau 1 dans la liste en cours
+                    if (thematique.niveau == 1) {
+                        var index = 0;
+                        var indexRecherche: number;
+                        for (let theme of this.themes) {
+                            if (theme.id == idThematique) {
+                                indexRecherche = index;
+                            }
+                            index = index + 1;
+                        }
+                        this.themes.splice(indexRecherche, 1);
+                        this.emitThemesSubject();
+                    }
                },
                (error) => {
                     alert('thématique non supprimée');
+                    console.log('Erreur ! : ' + error);
+               }
+           );
+  }
+
+  updateThematique(thematique: Thematique): any {
+      let options = {
+                   withCredentials: true
+      };
+      // Créer une thematique
+      this.httpClient
+           .put<any>('http://localhost:9095/portailci/thematique/update', thematique, options)
+           .subscribe(
+               (response) => {
+                    console.log('update thematique OK');
+                    alert('thématique ' + response.nom + ' modifiée');
+                    if (response.niveau == 1) {
+                        var index = 0;
+                        for (let theme of this.themes) {
+                             if (theme.id == response.id) {
+                                  this.themes[index] = response;
+                             }
+                             index = index + 1;
+                        }
+                        this.emitThemesSubject();
+                    }
+                    return response;
+               },
+               (error) => {
+                    alert('thématique non modifiée');
                     console.log('Erreur ! : ' + error);
                }
            );

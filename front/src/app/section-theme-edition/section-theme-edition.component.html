@@ -93,13 +93,45 @@
     </form>
   </div>
 
+  <!-- modifier une thématique -->
+  <div *ngIf="typeModification == 'update' && typeObjet==='thematique'"
+       class="bloc_module_edition_saisie">
+    <form (ngSubmit)="updateThematique(f)" #f="ngForm">
+      <p>Quelle thématique souhaitez-vous modifier ?</p>
+      <p>
+        <label for="thematiqueUpdate">niveau & nom de la thématique à modifier: </label>
+        <select id="thematiqueUpdate" name="thematiqueUpdate"
+                (ngModelChange)="setUpdateThematique($event)"
+                ngModel required>
+          <ng-container *ngFor="let thematique of allThematiques">
+            <option [ngValue]="thematique">N{{ thematique.niveau }} - {{ thematique.nom}}</option>
+          </ng-container>
+        </select>
+        <br />
+      </p>
+      <p *ngIf="indicateurUpdate === true">
+        <span *ngIf="thematiqueUpdate.niveau === 2 || thematiqueUpdate.niveau === 3">
+          nom du thème parent : {{ thematiqueUpdateN1.nom }}<br /><br /></span>
+        <span *ngIf="thematiqueUpdate.niveau === 3">
+          nom du sous-thème parent : {{ thematiqueUpdateN2.nom }}<br /><br /></span>
+        <label for="nomUpdate">nom court : </label>
+        <input type="text" id="nomUpdate" name="nom"
+               ngModel="{{ thematiqueUpdate.nom }}" required>
+        <label for="descriptionUpdate"> description : </label>
+        <input type="text" id="descriptionUpdate" name="description"
+               ngModel="{{ thematiqueUpdate.description }}" required>
+      </p>
+      <button type="submit" [disabled]="f.invalid">Modifier</button>
+    </form>
+  </div>
+
   <!-- suppression thématique -->
   <div *ngIf="typeModification == 'delete' && typeObjet==='thematique'"
        class="bloc_module_edition_saisie">
     <form (ngSubmit)="deleteThematique(f)" #f="ngForm">
       <p>Quelle thématique souhaitez-vous supprimer ?</p>
       <p>
-        <label for="thematiqueDelete">nom du thème : </label>
+        <label for="thematiqueDelete">niveau & nom de la thématique : </label>
         <select id="thematiqueDelete" name="thematiqueDelete" ngModel required>
           <ng-container *ngFor="let thematique of allThematiques">
             <option [ngValue]="thematique">N{{ thematique.niveau }} - {{ thematique.nom}}</option>
