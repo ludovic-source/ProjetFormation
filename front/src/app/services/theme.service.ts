@@ -291,6 +291,27 @@ export class ThemeService {
                         }
                         this.emitThemesSubject();
                     }
+                    if (response.niveau == 2) {
+                        var index = 0;
+                        for (let theme of this.themesNiveau2) {
+                             if (theme.id == response.id) {
+                                  this.themesNiveau2[index] = response;
+                             }
+                             index = index + 1;
+                        }
+                        this.emitThemesNiveau2Subject();
+                    }
+                    if (response.niveau == 3) {
+                        var index = 0;
+                        for (let theme of this.themesNiveau3) {
+                             if (theme.id == response.id) {
+                                  this.themesNiveau3[index] = response;
+                             }
+                             index = index + 1;
+                        }
+                        this.emitThemesNiveau3Subject();
+                    }
+
                     return response;
                },
                (error) => {

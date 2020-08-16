@@ -17,6 +17,8 @@ import { EditionService } from './services/edition.service';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { SectionThemeArbreComponent } from './section-theme-arbre/section-theme-arbre.component';
 import { SectionThemeEditionComponent } from './section-theme-edition/section-theme-edition.component';
+import { SectionThemeEditionThematiqueComponent } from './section-theme-edition-thematique/section-theme-edition-thematique.component';
+import { SectionThemeEditionLienComponent } from './section-theme-edition-lien/section-theme-edition-lien.component';
 
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
@@ -31,7 +33,9 @@ const appRoutes: Routes = [
     SectionArticleConnexionComponent,
     SectionComponent,
     SectionThemeArbreComponent,
-    SectionThemeEditionComponent
+    SectionThemeEditionComponent,
+    SectionThemeEditionThematiqueComponent,
+    SectionThemeEditionLienComponent
   ],
   imports: [
     BrowserModule,

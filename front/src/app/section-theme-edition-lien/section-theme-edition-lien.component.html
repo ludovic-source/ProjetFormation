@@ -1,0 +1,12 @@
+<!-- Formulaires pour les liens -->
+<div class="bloc_module_edition_choix" *ngIf="typeObjet==='lien'">
+  <p>Quel type de modification souhaitez-vous ?</p>
+  <input type="radio" value="create" name="type_modification"
+         (change)="setTypeModification('create')"/>Créer un nouveau lien<br />
+  <input type="radio" value="update" name="type_modification"
+         (change)="setTypeModification('update')"/>Modifier un lien existant<br />
+  <input type="radio" value="publier" name="type_modification"
+         (change)="setTypeModification('publier')"/>Publier un lien existant<br />
+  <input type="radio" value="delete" name="type_modification"
+         (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+</div>

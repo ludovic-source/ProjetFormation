@@ -255,6 +255,20 @@ nav
 	text-align: center;
 }
 
+.bouton_vert
+{
+  background-color: #95D5B2;
+  border-width: 0px;
+  border-radius: 5px;
+}
+
+.bouton_bleu
+{
+  background-color: #48BFE3;
+  border-width: 0px;
+  border-radius: 5px;
+}
+
 #bloc_modification_parametrage
 {
 	/*width: 600px;*/

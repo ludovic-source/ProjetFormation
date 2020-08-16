@@ -20,7 +20,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
             if (err.status === 500) {
                 console.log("err : " + err);
-                location.reload(true);
                 alert("erreur 500 : quel message exploiter ?");
                 console.log(err.error.message);
             }
