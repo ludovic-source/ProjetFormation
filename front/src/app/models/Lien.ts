@@ -14,4 +14,6 @@ export class Lien {
 
     thematique: Thematique;
 
+    constructor() { }
+
 }

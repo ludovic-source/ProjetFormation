@@ -62,7 +62,7 @@
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid"
             *ngIf="niveauThematiqueCreate === 1
               || niveauThematiqueCreate === 2
-              || niveauThematiqueCreate === 3">Créer</button>
+              || niveauThematiqueCreate === 3">Créer thématique</button>
   </form>
 </div>
 
@@ -113,12 +113,15 @@
       </span>
 
       <span *ngIf="thematiqueUpdate.niveau === 3 && indicateurModifierThemeParent != true">
-        Souhaitez-vous modifier le thème ou le sous-thème parent ?
-        <button class="bouton_vert" (click)="setModifierThemeParent()">oui</button><br /><br />
+        Souhaitez-vous modifier le thème ou le sous-thème parent ? <em> (le niveau ne peut pas être modifié)</em>
+        <button class="bouton_vert" (click)="setModifierThemeParent(true)">oui</button><br /><br />
       </span>
       <span *ngIf="thematiqueUpdate.niveau === 2 && indicateurModifierThemeParent != true">
-        Souhaitez-vous modifier le thème parent ?
-        <button class="bouton_vert" (click)="setModifierThemeParent()">oui</button><br /><br />
+        Souhaitez-vous modifier le thème parent ? <em> (le niveau ne peut pas être modifié)</em>
+        <button class="bouton_vert" (click)="setModifierThemeParent(true)">oui</button><br /><br />
+      </span>
+      <span *ngIf="thematiqueUpdate.niveau === 2 && indicateurModifierThemeParent === true">
+        <button class="bouton_rouge" (click)="setModifierThemeParent(false)">ne plus modifier le thème parent</button><br /><br />
       </span>
 
       <label for="nomUpdate">nom court : </label>
@@ -128,7 +131,7 @@
       <input type="text" id="descriptionUpdate" name="description"
              ngModel="{{ thematiqueUpdate.description }}" required>
     </p>
-    <button  class="bouton_bleu" type="submit" [disabled]="f.invalid">Modifier</button>
+    <button  class="bouton_bleu" type="submit" [disabled]="f.invalid">Modifier thématique</button>
   </form>
 </div>
 
@@ -146,6 +149,6 @@
       </select>
       <br />
     </p>
-    <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Supprimer</button>
+    <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Supprimer thématique</button>
   </form>
 </div>

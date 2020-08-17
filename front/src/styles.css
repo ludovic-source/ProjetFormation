@@ -257,9 +257,20 @@ nav
 
 .bouton_vert
 {
-  background-color: #95D5B2;
+  background-color: #20BF55;
   border-width: 0px;
   border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+.bouton_rouge
+{
+  background-color: #FF1654;
+  border-width: 0px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
 }
 
 .bouton_bleu

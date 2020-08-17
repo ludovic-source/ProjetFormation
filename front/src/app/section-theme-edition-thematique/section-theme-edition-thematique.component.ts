@@ -193,8 +193,8 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
 
   }
 
-  setModifierThemeParent() {
-      this.indicateurModifierThemeParent = true;
+  setModifierThemeParent(valeur: boolean) {
+      this.indicateurModifierThemeParent = valeur;
   }
 
 }
