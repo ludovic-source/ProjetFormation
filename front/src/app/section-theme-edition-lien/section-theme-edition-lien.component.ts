@@ -26,6 +26,9 @@ export class SectionThemeEditionLienComponent implements OnInit {
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
 
+  liens: any[];
+  liensSubscription: Subscription;
+
   constructor(private themeService: ThemeService,
               private lienService: LienService,
               private router: Router) { }
@@ -36,6 +39,11 @@ export class SectionThemeEditionLienComponent implements OnInit {
                                               this.allThematiques = allThematiques;
                                            });
       this.themeService.emitAllThematiquesSubject();
+      this.liensSubscription = this.lienService.liensSubject.subscribe(
+                       (liens: any[]) => {
+                                            this.liens = liens;
+                                         });
+      this.lienService.emitLiensSubject();
   }
 
   setTypeModification(typeModification: string) {
@@ -51,12 +59,14 @@ export class SectionThemeEditionLienComponent implements OnInit {
       console.log('setThematiqueNiveau1 : ' + theme.id);
       this.idThematiqueNiveau1 = theme.id;
       this.thematiquesNiveau2 = [];
+      this.thematiquesNiveau3 = [];
       for (let thematique of this.allThematiques) {
           if (thematique.idParent == theme.id) {
               console.log('setThematiqueNiveau1 - sous-theme : ' + thematique.nom);
               this.thematiquesNiveau2.push(thematique);
           }
       }
+      this.getLiens(theme);
   }
 
   setThematiqueNiveau2(sousTheme: any) {
@@ -68,7 +78,9 @@ export class SectionThemeEditionLienComponent implements OnInit {
                   this.thematiquesNiveau3.push(thematique);
               }
           }
+          this.getLiens(sousTheme);
       }
+
   }
 
   createLien(form: NgForm) {
@@ -87,15 +99,26 @@ export class SectionThemeEditionLienComponent implements OnInit {
       if (form.value['sous_theme'] == undefined && form.value['sous_sous_theme'] == undefined) {
           lien.thematique = form.value['theme'];
       }
+      console.log('lien.thematique.nom : ' + lien.thematique.nom);
 
       var lienCreate: any;
-      //lienCreate = this.lienService.createLien(lien);
+      lienCreate = this.lienService.createLien(lien);
       this.revenirDebutFormulaire();
   }
 
   revenirDebutFormulaire() {
       this.typeObjet = '';
       this.typeModification = '';
+  }
+
+  getLiens(thematique: any): any {
+      this.liens = this.lienService.getLiens(thematique.id);
+  }
+
+  publierLien(form: NgForm) {
+      var lien = new Lien;
+      lien = form.value['lien'];
+      this.lienService.publierLien(lien);
   }
 
 }

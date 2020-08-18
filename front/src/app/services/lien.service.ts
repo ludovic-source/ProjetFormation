@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
+import { Lien } from '../models/Lien';
 
 @Injectable()
 export class LienService {
@@ -62,4 +63,49 @@ export class LienService {
              );
         return this.liens;
     }
+
+    createLien(lien :Lien): any {
+        let options = {
+                           withCredentials: true
+        };
+        // Créer un lien
+        this.httpClient
+             .post<any>('http://localhost:9095/portailci/lien/create', lien, options)
+             .subscribe(
+                  (response) => {
+                      console.log('création lien OK');
+                      alert('lien ' + response.nom + ' créé');
+                      //    this.liens.push(response);
+                      //    this.emitLiensSubject();
+                      return response;
+                  },
+                  (error) => {
+                      alert('lien non créé');
+                      console.log('Erreur ! : ' + error);
+                  }
+        );
+    }
+
+    publierLien(lien :Lien): any {
+        let options = {
+             withCredentials: true
+        };
+        // Créer un lien
+        this.httpClient
+             .post<any>('http://localhost:9095/portailci/lien/publier', lien, options)
+             .subscribe(
+                  (response) => {
+                      console.log('publication lien OK');
+                      alert('lien ' + response.nom + ' publié');
+                      //    this.liens.push(response);
+                      //    this.emitLiensSubject();
+                      return response;
+                  },
+                  (error) => {
+                      alert('lien non publié');
+                      console.log('Erreur ! : ' + error);
+                  }
+        );
+    }
+
 }

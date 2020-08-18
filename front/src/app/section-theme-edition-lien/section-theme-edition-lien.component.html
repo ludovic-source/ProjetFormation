@@ -52,12 +52,58 @@
       <label for="url"> URL : </label>
       <input type="text" id="url" name="url" ngModel required><br /><br />
       <label for="mode_affichage">mode affichage : </label>
-      <select name="mode_affichage" id="mode_affichage">
+      <select name="mode_affichage" id="mode_affichage" ngModel required>
         <option value="true">même fenêtre</option>
         <option value="false">nouvelle fenêtre</option>
       </select><br />
     </p>
 
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Créer lien</button>
+  </form>
+</div>
+
+<!-- publication lien -->
+<div *ngIf="typeModification == 'publier' && typeObjet==='lien'"
+     class="bloc_module_edition_saisie">
+  <form (ngSubmit)="publierLien(f)" #f="ngForm">
+
+    <p>
+      <em>Recherchez le lien "pré-publié" à partir des thématiques : </em><br /><br />
+      <label for="theme_publication">nom du thème : </label>
+      <select id="theme_publication" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
+        <ng-container *ngFor="let thematique of allThematiques">
+          <option [ngValue]="thematique"
+                  *ngIf="thematique.niveau === 1">{{ thematique.nom}}</option>
+        </ng-container>
+      </select>
+      <br />
+    </p>
+    <p>
+      <label for="sous_theme_publication">nom du sous-thème : </label>
+      <select name="sous_theme" id="sous_theme_publication" (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
+        <option [ngValue]="thematique"
+                *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
+      </select><br />
+    </p>
+    <p>
+      <label for="sous_sous_theme">nom du sous sous-thème : </label>
+      <select name="sous_sous_theme_publication"
+              id="sous_sous_theme_publication"
+              (ngModelChange)="getLiens($event)" ngModel>
+        <option [ngValue]="thematique"
+                *ngFor="let thematique of thematiquesNiveau3">{{ thematique.nom }}</option>
+      </select><br />
+    </p>
+
+    <p>
+      <label for="liens">nom du lien à publier : </label>
+      <select name="lien" id="liens" ngModel>
+        <ng-container *ngFor="let lien of liens">
+          <option [ngValue]="lien" *ngIf="lien.statut === 'publié restreint'">{{ lien.nom }}</option>
+        </ng-container>
+      </select><br />
+    </p>
+
+    <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Publier lien</button>
   </form>
 </div>
