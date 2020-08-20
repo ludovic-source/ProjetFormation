@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
+import { EditionService } from '../services/edition.service';
 import { Thematique } from '../models/Thematique';
 
 @Component({
@@ -13,16 +14,24 @@ import { Thematique } from '../models/Thematique';
 })
 export class SectionThemeEditionComponent implements OnInit {
 
-  typeObjet: string;
+  indicateursEdition: any;
+  indicateursEditionSubscription: Subscription;
+  //isModeEdition: boolean;
+  //isModeEditionSubscription : Subscription;
 
-  constructor(private router: Router) { }
+  constructor(private editionService: EditionService, private router: Router) { }
 
   ngOnInit(): void {
-
+      this.indicateursEditionSubscription = this.editionService.indicateursEditionSubject.subscribe(
+                        (indicateursEdition: any) => {
+                                              this.indicateursEdition = indicateursEdition;
+                                                    });
+      this.editionService.emitIndicateursEditionSubject();
   }
 
   setTypeObjet(objet: string) {
-    this.typeObjet = objet;
+    this.indicateursEdition.typeObjet = objet;
+    this.editionService.emitIndicateursEditionSubject();
   }
 
 }

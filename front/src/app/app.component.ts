@@ -12,8 +12,10 @@ styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  isModeEdition: boolean;
-  isModeEditionSubscription : Subscription;
+  //isModeEdition: boolean;
+  //isModeEditionSubscription : Subscription;
+  indicateursEdition: any;
+  indicateursEditionSubscription: Subscription;
   isModeParametrage = false;
 
   title = 'portailci';
@@ -28,11 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-     this.isModeEditionSubscription = this.editionService.isModeEditionSubject.subscribe(
-                (isModeEdition: boolean) => {
-                                  this.isModeEdition = isModeEdition;
-                               });
-     this.editionService.emitIsModeEditionSubject();
+     this.indicateursEditionSubscription = this.editionService.indicateursEditionSubject.subscribe(
+                        (indicateursEdition: any) => {
+                                              this.indicateursEdition = indicateursEdition;
+                                                    });
+     this.editionService.emitIndicateursEditionSubject();
      this.userSubscription = this.authService.userSubject.subscribe(
                 (user: any) => {
                                   this.user = user;
@@ -83,5 +85,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isModeParametrage = false;
    }
 
+   editer(lieuEdition: number) {
+      this.editionService.setLieuEdition(lieuEdition);
+   }
 
 }

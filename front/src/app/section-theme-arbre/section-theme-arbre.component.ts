@@ -28,13 +28,13 @@ export class SectionThemeArbreComponent implements OnInit {
   liens: any[];
   liensSubscription: Subscription;
 
-  isModeEdition: boolean;
-  isModeEditionSubscription : Subscription;
+  //isModeEdition: boolean;
+  //isModeEditionSubscription : Subscription;
+  indicateursEdition: any;
+  indicateursEditionSubscription: Subscription;
 
   isEditionTheme = false;
   isEditionLien = true;
-
-  //thematiqueUpdate: any;
 
   constructor(private authService: AuthService,
               private themeService: ThemeService,
@@ -62,11 +62,11 @@ export class SectionThemeArbreComponent implements OnInit {
                                             this.liens = liens;
                                          });
       this.lienService.emitLiensSubject();
-      this.isModeEditionSubscription = this.editionService.isModeEditionSubject.subscribe(
-                      (isModeEdition: boolean) => {
-                                                     this.isModeEdition = isModeEdition;
-                                                  });
-      this.editionService.emitIsModeEditionSubject();
+      this.indicateursEditionSubscription = this.editionService.indicateursEditionSubject.subscribe(
+                        (indicateursEdition: any) => {
+                                              this.indicateursEdition = indicateursEdition;
+                                                    });
+      this.editionService.emitIndicateursEditionSubject();
   }
 
   ngOnChanges(): void {
@@ -109,16 +109,19 @@ export class SectionThemeArbreComponent implements OnInit {
   }
 
   getLiens(idTheme: number) {
-        this.idThemeNiveauOuvert = idTheme;
+      this.idThemeNiveauOuvert = idTheme;
       console.log('getLiens avec idTheme =  ' + idTheme);
       this.liens = this.lienService.getLiens(idTheme);
   }
 
-/*
-  modifierThematique(thematiqueUpdate: any) {
-    this.isEditionTheme = true;
-    this.thematiqueUpdate = thematiqueUpdate;
+  editerThematique(lieuEdition: number) {
+      this.indicateursEdition.isEdition = true;
+      this.editionService.setLieuEdition(lieuEdition);
+      this.editionService.emitIndicateursEditionSubject();
   }
-*/
+
+  editerLien(lieuEdition: string) {
+
+  }
 
 }

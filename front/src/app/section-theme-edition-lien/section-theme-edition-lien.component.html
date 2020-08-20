@@ -1,5 +1,5 @@
 <!-- Formulaires pour les liens -->
-<div class="bloc_module_edition_choix" *ngIf="typeObjet==='lien'">
+<div class="bloc_module_edition_choix" *ngIf="indicateursEdition.typeObjet==='lien'">
   <p>Quel type de modification souhaitez-vous ?</p>
   <input type="radio" value="create" name="type_modification"
          (change)="setTypeModification('create')"/>Créer un nouveau lien<br />
@@ -12,7 +12,8 @@
 </div>
 
 <!-- création lien -->
-<div *ngIf="typeModification == 'create' && typeObjet==='lien'"
+<div *ngIf="indicateursEdition.typeModification == 'create'
+            && indicateursEdition.typeObjet==='lien'"
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="createLien(f)" #f="ngForm">
 
@@ -63,7 +64,8 @@
 </div>
 
 <!-- publication lien -->
-<div *ngIf="typeModification == 'publier' && typeObjet==='lien'"
+<div *ngIf="indicateursEdition.typeModification == 'publier'
+            && indicateursEdition.typeObjet==='lien'"
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="publierLien(f)" #f="ngForm">
 

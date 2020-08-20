@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
+import { EditionService } from '../services/edition.service';
 import { Thematique } from '../models/Thematique';
 
 @Component({
@@ -14,7 +15,10 @@ import { Thematique } from '../models/Thematique';
 
 export class SectionThemeEditionThematiqueComponent implements OnInit {
 
-  @Input() typeObjet: string;
+  indicateursEdition: any;
+  indicateursEditionSubscription: Subscription;
+  //isModeEdition: boolean;
+  //isModeEditionSubscription : Subscription;
 
   idThematiqueNiveau1: any;
   idThematiqueNiveau2: any;
@@ -22,10 +26,10 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
 
-  typeModification: string;
-  niveauThematiqueCreate: number;
-  indicateurUpdate: boolean;
-  indicateurModifierThemeParent: boolean;
+  //typeModification: string;
+  //niveauThematiqueCreate: number;
+  //indicateurUpdate: boolean;
+  //indicateurModifierThemeParent: boolean;
 
   allThematiques: any[];
   allThematiquesSubscription: Subscription;
@@ -34,32 +38,62 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   thematiqueUpdateN1: any;
   thematiqueUpdateN2: any;
 
+  themes : any[];
+  themesSubscription : Subscription;
+
+  themesNiveau2: any[];
+  themesNiveau2Subscription : Subscription;
+
+  themesNiveau3: any[];
+  themesNiveau3Subscription : Subscription;
+
   //messageReponseFormulaire: string;
 
   constructor(private themeService: ThemeService,
               private lienService: LienService,
+              private editionService: EditionService,
               private router: Router) { }
 
   ngOnInit(): void {
+      this.indicateursEditionSubscription = this.editionService.indicateursEditionSubject.subscribe(
+                        (indicateursEdition: any) => {
+                                              this.indicateursEdition = indicateursEdition;
+                                                    });
+      this.editionService.emitIndicateursEditionSubject();
       this.allThematiquesSubscription = this.themeService.allThematiquesSubject.subscribe(
                         (allThematiques: any[]) => {
                                               this.allThematiques = allThematiques;
                                            });
       this.themeService.emitAllThematiquesSubject();
+      this.themesSubscription = this.themeService.themesSubject.subscribe(
+                        (themes: any[]) => {
+                                      this.themes = themes;
+                                   });
+      this.themeService.emitThemesSubject();
+      this.themesNiveau2Subscription = this.themeService.themesNiveau2Subject.subscribe(
+                      (themes: any[]) => {
+                                            this.themesNiveau2 = themes;
+                                         });
+      this.themeService.emitThemesNiveau2Subject();
+      this.themesNiveau3Subscription = this.themeService.themesNiveau3Subject.subscribe(
+                      (themes: any[]) => {
+                                            this.themesNiveau3 = themes;
+                                         });
+      this.themeService.emitThemesNiveau3Subject();
   }
 
   ngOnChanges() {
   }
 
   setTypeModification(typeModification: string) {
-    this.typeModification = typeModification;
-    if (this.typeObjet == 'thematique') {
+    this.indicateursEdition.typeModification = typeModification;
+    this.editionService.emitIndicateursEditionSubject();
+    if (this.indicateursEdition.typeObjet == 'thematique') {
         this.recupererThematiqueNiveau1();
     }
   }
 
   recupererThematiqueNiveau1() {
-      //this.thematiquesNiveau1 = [];
       this.allThematiques = this.themeService.getAllThematiques();
   }
 
@@ -86,7 +120,8 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   }
 
   setNiveauThematiqueCreate(niveau: number) {
-      this.niveauThematiqueCreate = niveau;
+      this.indicateursEdition.niveauThematiqueCreate = niveau;
+      this.editionService.emitIndicateursEditionSubject();
   }
 
   createThematique(form: NgForm) {
@@ -94,29 +129,22 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       const thematique = new Thematique;
       thematique.nom = form.value['nom'];
       thematique.description = form.value['description'];
-      thematique.niveau = form.value['niveau_thematique_create'];
-      if (form.value['niveau_thematique_create'] == 1) {
+      //thematique.niveau = form.value['niveau_thematique_create'];
+      thematique.niveau = this.indicateursEdition.niveauThematiqueCreate;
+      if (thematique.niveau == 1) {
           thematique.idParent = 0;
           // reste à traiter les images pour les thèmes
       }
-      if (form.value['niveau_thematique_create'] == 2) {
+      if (thematique.niveau == 2) {
           thematique.idParent = form.value['theme'];
       }
-      if (form.value['niveau_thematique_create'] == 3) {
+      if (thematique.niveau == 3) {
           thematique.idParent = form.value['sous_theme'];
       }
       thematique.imagePath = '';
       var thematiqueCreate: any;
       thematiqueCreate = this.themeService.createThematique(thematique);
-      this.revenirDebutFormulaire();
-  }
-
-  revenirDebutFormulaire() {
-      this.typeObjet = '';
-      this.typeModification = '';
-      this.niveauThematiqueCreate = 0;
-      this.indicateurUpdate = false;
-      this.indicateurModifierThemeParent = false;
+      this.editionService.revenirDebutFormulaire();
   }
 
   deleteThematique(form: NgForm) {
@@ -128,12 +156,12 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       } else {
           console.log('confirmation de suppression thématique négative');
       }
-      this.revenirDebutFormulaire();
+      this.editionService.revenirDebutFormulaire();
   }
 
   setUpdateThematique(thematique) {
       this.thematiqueUpdate = thematique;
-      this.indicateurUpdate = true;
+      this.indicateursEdition.indicateurUpdate = true;
       if (this.thematiqueUpdate.niveau == 2) {
           for (let theme of this.allThematiques) {
               if (theme.id == this.thematiqueUpdate.idParent) {
@@ -162,15 +190,20 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       thematique.nom = form.value['nom'];
       thematique.description = form.value['description'];
       thematique.niveau = this.thematiqueUpdate.niveau;
+      if (thematique.niveau == 1) {
+          thematique.idParent = 0;
+      }
 
       // ATTENTION : si changement de niveau d'une thématique, il faut monter d'un cran les enfants
       // -----> IMPACT DU BACK
       // POUR LE MOMENT L'APPLICATION INTERDIT LE CHANGEMENT DE NIVEAU D'UNE THEMATIQUE
 
-      if (this.indicateurModifierThemeParent == true && thematique.niveau == 2) {
+      if (this.indicateursEdition.indicateurModifierThemeParent == true
+          && thematique.niveau == 2) {
           thematique.idParent = form.value['theme_parent'];
       }
-      if (this.indicateurModifierThemeParent == true && thematique.niveau == 3) {
+      if (this.indicateursEdition.indicateurModifierThemeParent == true
+          && thematique.niveau == 3) {
           thematique.idParent = form.value['sous_theme_parent'];
       }
 
@@ -182,19 +215,15 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
           thematique.imagePath = this.thematiqueUpdate.imagePath;
       }
 
-
-
       var thematiqueUpdate: any;
       thematiqueUpdate = this.themeService.updateThematique(thematique);
-      this.revenirDebutFormulaire();
-
-
-
+      this.editionService.revenirDebutFormulaire();
 
   }
 
   setModifierThemeParent(valeur: boolean) {
-      this.indicateurModifierThemeParent = valeur;
+      this.indicateursEdition.indicateurModifierThemeParent = valeur;
+      this.editionService.emitIndicateursEditionSubject();
   }
 
 }

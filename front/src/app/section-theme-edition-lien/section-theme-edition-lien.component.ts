@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ThemeService } from '../services/theme.service';
 import { LienService } from '../services/lien.service';
+import { EditionService } from '../services/edition.service';
 import { Thematique } from '../models/Thematique';
 import { Lien } from '../models/Lien';
 
@@ -14,7 +15,10 @@ import { Lien } from '../models/Lien';
 })
 export class SectionThemeEditionLienComponent implements OnInit {
 
-  @Input() typeObjet: string;
+  //isModeEdition: boolean;
+  //isModeEditionSubscription : Subscription;
+  indicateursEdition: any;
+  indicateursEditionSubscription: Subscription;
 
   typeModification: string;
 
@@ -31,9 +35,15 @@ export class SectionThemeEditionLienComponent implements OnInit {
 
   constructor(private themeService: ThemeService,
               private lienService: LienService,
+              private editionService: EditionService,
               private router: Router) { }
 
   ngOnInit(): void {
+      this.indicateursEditionSubscription = this.editionService.indicateursEditionSubject.subscribe(
+                        (indicateursEdition: any) => {
+                                              this.indicateursEdition = indicateursEdition;
+                                                    });
+      this.editionService.emitIndicateursEditionSubject();
       this.allThematiquesSubscription = this.themeService.allThematiquesSubject.subscribe(
                         (allThematiques: any[]) => {
                                               this.allThematiques = allThematiques;
@@ -47,7 +57,8 @@ export class SectionThemeEditionLienComponent implements OnInit {
   }
 
   setTypeModification(typeModification: string) {
-    this.typeModification = typeModification;
+    this.indicateursEdition.typeModification = typeModification;
+    this.editionService.emitIndicateursEditionSubject();
     this.recupererThematiqueNiveau1();
   }
 
@@ -103,12 +114,7 @@ export class SectionThemeEditionLienComponent implements OnInit {
 
       var lienCreate: any;
       lienCreate = this.lienService.createLien(lien);
-      this.revenirDebutFormulaire();
-  }
-
-  revenirDebutFormulaire() {
-      this.typeObjet = '';
-      this.typeModification = '';
+      this.editionService.revenirDebutFormulaire();
   }
 
   getLiens(thematique: any): any {

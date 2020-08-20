@@ -34,17 +34,17 @@
                            && ( getProfil() === 'Administrateur' || getProfil() === 'Rédacteur' )">
       <!-- <a href="maquetteEdition.html"><img src="/assets/images/pencil24px.svg" alt="mode édition de liens" title="mode édition de liens"></a> -->
       <button class="button_menu"
-              *ngIf="isModeEdition != true"
-              (click)="activerModeEdition()"
-              routerLink="edition">
+              *ngIf="indicateursEdition.isModeEdition != true"
+              (click)="activerModeEdition()">
+              <!-- routerLink="edition"> -->
         <img src="/assets/images/pencil24px.svg"
              alt="activer le mode édition de liens"
              title="activer le mode édition de liens">
       </button>
       <button class="button_menu"
-              *ngIf="isModeEdition === true"
-              (click)="desactiverModeEdition()"
-              routerLink="">
+              *ngIf="indicateursEdition.isModeEdition === true"
+              (click)="desactiverModeEdition()">
+              <!-- routerLink=""> -->
           <img src="/assets/images/pencil24px.svg"
                alt="désactiver le mode édition de liens"
                title="désactiver le mode édition de liens">
@@ -60,8 +60,16 @@
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">
     <a routerLink="theme/{{ theme.id }}">
-      <h3 *ngIf="isModeEdition != true" title="{{ theme.description }}">{{ theme.nom }}</h3>
+      <h3 title="{{ theme.description }}">{{ theme.nom }}</h3>
     </a>
+  </div>
+  <div class="menu" *ngIf="indicateursEdition.isModeEdition === true">
+    <button routerLink="edition"
+            (click)="editer(1)">
+      <img src="/assets/images/pencil16px.svg"
+           alt="édition niveau thème"
+           title="édition niveau thème">
+    </button>
   </div>
 </nav>
 

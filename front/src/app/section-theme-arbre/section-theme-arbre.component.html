@@ -4,6 +4,13 @@
     <!--       style="background-image: url('/assets/images/{{ getImage() }}');background-repeat: no-repeat;"> -->
 
     <div class="bloc_sous_theme">
+
+      <button *ngIf="indicateursEdition.isModeEdition === true"
+              (click)="editerThematique(2)">
+        <img src="/assets/images/pencil16px.svg"
+             alt="modifier le sous-thème"
+             title="modifier le sous-thème">
+      </button>
       <div class="bloc_lien" *ngFor="let lienNiveau1 of liensNiveau1">
         <p *ngIf="lienNiveau1.thematique.id == getIdTheme()
                   && lienNiveau1.statut == 'publié'">
@@ -14,12 +21,11 @@
           <a *ngIf="lienNiveau1.mode_affichage == true"
              title="{{ lienNiveau1.description }}"
              href="{{ lienNiveau1.url }}">{{ lienNiveau1.nom }}</a>
-          <!--
-          <img *ngIf="isModeEdition === true"
-               src="/assets/images/pencil16px.svg"
-               alt="modifier le lien"
-               title="modifier le lien">
-          -->
+          <img  *ngIf="indicateursEdition.isModeEdition === true"
+                (click)="editerLien('lien')"
+                src="/assets/images/pencil16px.svg"
+                alt="modifier le lien"
+                title="modifier le lien">
         </p>
       </div>
     </div>
@@ -30,15 +36,13 @@
                 *ngIf="themeNiveau2.niveau == 2"
                 title="{{ themeNiveau2.description }}"
                 (click)="getThemesNiveau3EtLiens(themeNiveau2.id)">
-          <h4>{{ themeNiveau2.nom }}</h4>
+          <h4>{{ themeNiveau2.nom }} </h4>
         </a>
-        <!--
-        <img *ngIf="isModeEdition === true"
+        <img *ngIf="indicateursEdition.isModeEdition === true"
+             (click)="editerThematique(3)"
              src="/assets/images/pencil16px.svg"
              alt="modifier le sous-thème"
-             title="modifier le sous-thème"
-             (click)="modifierThematique(themeNiveau2)">
-        -->
+             title="modifier le sous-thème">
       </div>
       <div class="bloc_lien" *ngFor="let lien of liens">
         <p *ngIf="lien.thematique.id == themeNiveau2.id
@@ -50,12 +54,11 @@
           <a *ngIf="lien.mode_affichage == true"
              title="{{ lien.description }}"
              href="{{ lien.url }}">{{ lien.nom }}</a>
-          <!--
-          <img *ngIf="isModeEdition === true"
+          <img *ngIf="indicateursEdition.isModeEdition === true"
+               (click)="editerLien('lien')"
                src="/assets/images/pencil16px.svg"
                alt="modifier le lien"
                title="modifier le lien">
-          -->
         </p>
       </div>
 
@@ -68,14 +71,12 @@
                     (click)="getLiens(themeNiveau3.id)">
               <h4>{{ themeNiveau3.nom }}</h4>
             </a>
-            <!--
             <img *ngIf="themeNiveau3.niveau == 3 && themeNiveau2.id == themeNiveau3.idParent
-                       && isModeEdition === true"
+                        && indicateursEdition.isModeEdition === true"
+                 (click)="editerThematique(4)"
                  src="/assets/images/pencil16px.svg"
                  alt="modifier le sous sous-thème"
-                 title="modifier le sous sous-thème"
-                 (click)="modifierThematique(themeNiveau3)">
-            -->
+                 title="modifier le sous sous-thème">
           </div>
           <div *ngFor="let lien of liens">
             <p *ngIf="lien.thematique.id == themeNiveau3.id
@@ -88,12 +89,11 @@
               <a *ngIf="lien.mode_affichage == true"
                  title="{{ lien.description }}"
                  href="{{ lien.url }}">{{ lien.nom }}</a>
-              <!--
-              <img *ngIf="isModeEdition === true"
-                   src="/assets/images/pencil16px.svg"
-                   alt="modifier le lien"
-                   title="modifier le lien">
-              -->
+              <img  *ngIf="indicateursEdition.isModeEdition === true"
+                    (click)="editerLien('lien')"
+                    src="/assets/images/pencil16px.svg"
+                    alt="modifier le lien"
+                    title="modifier le lien">
             </p>
           </div>
         </div>
@@ -102,12 +102,9 @@
 
   </article>
 
-<!--
-  <app-section-theme-edition *ngIf="isModeEdition === true"
-                             [idThemeNiveau1]="idTheme"
-                             [isEditionTheme]="isEditionTheme"
-                             [thematiqueUpdate]="thematiqueUpdate">
+  <app-section-theme-edition *ngIf="indicateursEdition.isModeEdition === true
+                                    && indicateursEdition.isEdition === true">
   </app-section-theme-edition>
--->
+
 
 </div>
