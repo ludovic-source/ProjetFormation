@@ -149,4 +149,10 @@ export class SectionThemeEditionLienComponent implements OnInit {
       this.lienService.publierLien(lien);
   }
 
+  depublierLien(form: NgForm) {
+      var lien = new Lien;
+      lien = form.value['lien'];
+      this.lienService.depublierLien(lien);
+  }
+
 }

@@ -11,7 +11,7 @@
     <input type="radio" value="publier" name="type_modification"
            (change)="setTypeModification('publier')"/>Publier un lien existant<br />
     <input type="radio" value="delete" name="type_modification"
-           (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+           (change)="setTypeModification('delete')"/>Dépublier un lien existant<br />
   </ng-container>
   <ng-container *ngIf="indicateursEdition.lieuEdition === 2 || indicateursEdition.lieuEdition === 4
                       || indicateursEdition.lieuEdition === 6">
@@ -19,7 +19,7 @@
     <input type="radio" value="update" name="type_modification"
            (change)="setTypeModification('update')"/>Modifier un lien existant<br />
     <input type="radio" value="delete" name="type_modification"
-           (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+           (change)="setTypeModification('delete')"/>Dépublier un lien existant<br />
   </ng-container>
 </div>
 
@@ -117,5 +117,53 @@
     </p>
 
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Publier lien</button>
+  </form>
+</div>
+
+<!-- dépublier lien -->
+<div *ngIf="indicateursEdition.typeModification == 'delete'
+            && indicateursEdition.typeObjet==='lien'"
+     class="bloc_module_edition_saisie">
+  <form (ngSubmit)="depublierLien(f)" #f="ngForm">
+
+    <p *ngIf="indicateursEdition.lieuEdition === 1 || indicateursEdition.lieuEdition === 2">
+      <em>Recherchez le lien à dépublier à partir des thématiques : </em><br /><br />
+      <label for="theme_suppression">nom du thème : </label>
+      <select id="theme_suppression" name="theme"
+              (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
+        <ng-container *ngFor="let theme of themes">
+          <option [ngValue]="theme">{{ theme.nom}}</option>
+        </ng-container>
+      </select>
+      <br />
+    </p>
+    <p *ngIf="indicateursEdition.lieuEdition === 3 || indicateursEdition.lieuEdition === 4">
+      <label for="sous_theme_suppression">nom du sous-thème : </label>
+      <select name="sous_theme" id="sous_theme_suppression"
+              (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
+        <option [ngValue]="themeNiveau2"
+                *ngFor="let themeNiveau2 of themesNiveau2">{{ themeNiveau2.nom }}</option>
+      </select><br />
+    </p>
+    <p *ngIf="indicateursEdition.lieuEdition === 5 || indicateursEdition.lieuEdition === 6">
+      <label for="sous_sous_theme">nom du sous sous-thème : </label>
+      <select name="sous_sous_theme_suppression"
+              id="sous_sous_theme_suppression"
+              (ngModelChange)="getLiens($event)" ngModel>
+        <option [ngValue]="themeNiveau3"
+                *ngFor="let themeNiveau3 of themesNiveau3">{{ themeNiveau3.nom }}</option>
+      </select><br />
+    </p>
+
+    <p>
+      <label for="liens">nom du lien à dépublier : </label>
+      <select name="lien" id="liensDelete" ngModel>
+        <ng-container *ngFor="let lien of liens">
+          <option [ngValue]="lien">{{ lien.nom }}</option>
+        </ng-container>
+      </select><br />
+    </p>
+
+    <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Dépublier lien</button>
   </form>
 </div>

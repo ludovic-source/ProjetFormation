@@ -90,19 +90,37 @@ export class LienService {
         let options = {
              withCredentials: true
         };
-        // Créer un lien
+        // Publier un lien
         this.httpClient
              .post<any>('http://localhost:9095/portailci/lien/publier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('publication lien OK');
                       alert('lien ' + response.nom + ' publié');
-                      //    this.liens.push(response);
-                      //    this.emitLiensSubject();
                       return response;
                   },
                   (error) => {
                       alert('lien non publié');
+                      console.log('Erreur ! : ' + error);
+                  }
+        );
+    }
+
+    depublierLien(lien :Lien): any {
+        let options = {
+             withCredentials: true
+        };
+        // Depublier un lien
+        this.httpClient
+             .post<any>('http://localhost:9095/portailci/lien/depublier', lien, options)
+             .subscribe(
+                  (response) => {
+                      console.log('dépublication lien OK');
+                      alert('lien ' + response.nom + ' dépublié');
+                      return response;
+                  },
+                  (error) => {
+                      alert('lien non dépublier');
                       console.log('Erreur ! : ' + error);
                   }
         );
