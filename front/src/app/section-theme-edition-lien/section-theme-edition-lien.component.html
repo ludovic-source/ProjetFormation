@@ -1,14 +1,26 @@
 <!-- Formulaires pour les liens -->
-<div class="bloc_module_edition_choix" *ngIf="indicateursEdition.typeObjet==='lien'">
-  <p>Quel type de modification souhaitez-vous ?</p>
-  <input type="radio" value="create" name="type_modification"
-         (change)="setTypeModification('create')"/>Créer un nouveau lien<br />
-  <input type="radio" value="update" name="type_modification"
-         (change)="setTypeModification('update')"/>Modifier un lien existant<br />
-  <input type="radio" value="publier" name="type_modification"
-         (change)="setTypeModification('publier')"/>Publier un lien existant<br />
-  <input type="radio" value="delete" name="type_modification"
-         (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+
+<div class="bloc_module_edition_choix" *ngIf="indicateursEdition.typeObjet === 'lien'">
+  <ng-container *ngIf="indicateursEdition.lieuEdition === 1 || indicateursEdition.lieuEdition === 3
+                       || indicateursEdition.lieuEdition === 5">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="create" name="type_modification"
+           (change)="setTypeModification('create')"/>Créer un nouveau lien<br />
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un lien existant<br />
+    <input type="radio" value="publier" name="type_modification"
+           (change)="setTypeModification('publier')"/>Publier un lien existant<br />
+    <input type="radio" value="delete" name="type_modification"
+           (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+  </ng-container>
+  <ng-container *ngIf="indicateursEdition.lieuEdition === 2 || indicateursEdition.lieuEdition === 4
+                      || indicateursEdition.lieuEdition === 6">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un lien existant<br />
+    <input type="radio" value="delete" name="type_modification"
+           (change)="setTypeModification('delete')"/>Supprimer un lien existant<br />
+  </ng-container>
 </div>
 
 <!-- création lien -->
@@ -17,37 +29,34 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="createLien(f)" #f="ngForm">
 
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 1">
       <em>Sélectionnez : </em><br /><br />
       <label for="theme">nom du thème : </label>
       <select id="theme" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
-        <ng-container *ngFor="let thematique of allThematiques">
-          <option [ngValue]="thematique"
-                  *ngIf="thematique.niveau === 1">{{ thematique.nom}}</option>
+        <ng-container *ngFor="let theme of themes">
+          <option [ngValue]="theme">{{ theme.nom}}</option>
         </ng-container>
       </select>
       <br />
     </p>
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 3">
       <label for="sous_theme">nom du sous-thème : </label>
       <select name="sous_theme" id="sous_theme" (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
-        <option [ngValue]="undefined">Aucun</option>
-        <option [ngValue]="thematique"
-                *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
+        <option [ngValue]="themeNiveau2"
+                *ngFor="let themeNiveau2 of themesNiveau2">{{ themeNiveau2.nom }}</option>
       </select><br />
     </p>
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 5">
       <label for="sous_sous_theme">nom du sous sous-thème : </label>
       <select name="sous_sous_theme" id="sous_sous_theme" ngModel>
-        <option [ngValue]="undefined">Aucun</option>
-        <option value="thematique"
-                *ngFor="let thematique of thematiquesNiveau3">{{ thematique.nom }}</option>
+        <option [ngValue]="themeNiveau3"
+                *ngFor="let themeNiveau3 of themesNiveau3">{{ themeNiveau3.nom }}</option>
       </select><br />
     </p>
 
     <p>
       <label for="nom">nom court : </label>
-      <input type="text" id="nom" name="nom" ngModel required>
+      <input type="text" id="nom" name="nom" ngModel required><br /><br />
       <label for="description"> description : </label>
       <input type="text" id="description" name="description" ngModel required><br /><br />
       <label for="url"> URL : </label>
@@ -69,31 +78,32 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="publierLien(f)" #f="ngForm">
 
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 1">
       <em>Recherchez le lien "pré-publié" à partir des thématiques : </em><br /><br />
       <label for="theme_publication">nom du thème : </label>
-      <select id="theme_publication" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
-        <ng-container *ngFor="let thematique of allThematiques">
-          <option [ngValue]="thematique"
-                  *ngIf="thematique.niveau === 1">{{ thematique.nom}}</option>
+      <select id="theme_publication" name="theme"
+              (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
+        <ng-container *ngFor="let theme of themes">
+          <option [ngValue]="theme">{{ theme.nom}}</option>
         </ng-container>
       </select>
       <br />
     </p>
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 3">
       <label for="sous_theme_publication">nom du sous-thème : </label>
-      <select name="sous_theme" id="sous_theme_publication" (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
-        <option [ngValue]="thematique"
-                *ngFor="let thematique of thematiquesNiveau2">{{ thematique.nom }}</option>
+      <select name="sous_theme" id="sous_theme_publication"
+              (ngModelChange)="setThematiqueNiveau2($event)" ngModel>
+        <option [ngValue]="themeNiveau2"
+                *ngFor="let themeNiveau2 of themesNiveau2">{{ themeNiveau2.nom }}</option>
       </select><br />
     </p>
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition === 5">
       <label for="sous_sous_theme">nom du sous sous-thème : </label>
       <select name="sous_sous_theme_publication"
               id="sous_sous_theme_publication"
               (ngModelChange)="getLiens($event)" ngModel>
-        <option [ngValue]="thematique"
-                *ngFor="let thematique of thematiquesNiveau3">{{ thematique.nom }}</option>
+        <option [ngValue]="themeNiveau3"
+                *ngFor="let themeNiveau3 of themesNiveau3">{{ themeNiveau3.nom }}</option>
       </select><br />
     </p>
 

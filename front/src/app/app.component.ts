@@ -85,8 +85,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isModeParametrage = false;
    }
 
-   editer(lieuEdition: number) {
-      this.editionService.setLieuEdition(lieuEdition);
+   editerThematique(lieuEdition: number) {
+      this.editionService.setLieuEditionThematique(lieuEdition);
+   }
+
+   editerLien(lieuEdition: number) {
+      this.editionService.revenirDebutFormulaire();
+      this.editionService.setLieuEditionLien(lieuEdition);
    }
 
 }

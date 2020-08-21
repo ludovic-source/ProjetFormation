@@ -116,12 +116,15 @@ export class SectionThemeArbreComponent implements OnInit {
 
   editerThematique(lieuEdition: number) {
       this.indicateursEdition.isEdition = true;
-      this.editionService.setLieuEdition(lieuEdition);
+      this.editionService.setLieuEditionThematique(lieuEdition);
       this.editionService.emitIndicateursEditionSubject();
   }
 
-  editerLien(lieuEdition: string) {
-
+  editerLien(lieuEdition: number) {
+      this.editionService.revenirDebutFormulaire();
+      this.indicateursEdition.isEdition = true;
+      this.editionService.setLieuEditionLien(lieuEdition);
+      this.editionService.emitIndicateursEditionSubject();
   }
 
 }

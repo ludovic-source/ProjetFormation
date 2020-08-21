@@ -65,10 +65,18 @@
   </div>
   <div class="menu" *ngIf="indicateursEdition.isModeEdition === true">
     <button routerLink="edition"
-            (click)="editer(1)">
-      <img src="/assets/images/pencil16px.svg"
-           alt="édition niveau thème"
-           title="édition niveau thème">
+            (click)="editerThematique(1)"
+            class="bouton_edition">
+      <img src="/assets/images/T16px.png"
+           alt="édition thématique niveau thème"
+           title="ajouter, modifier, supprimer un thème ">
+    </button>
+    <button routerLink="edition"
+            (click)="editerLien(1)"
+            class="bouton_edition">
+      <img src="/assets/images/L16px.png"
+           alt="édition lien niveau thème"
+           title="ajouter, modifier, supprimer un lien de niveau thème">
     </button>
   </div>
 </nav>

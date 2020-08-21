@@ -1,13 +1,38 @@
 <!-- Formulaires pour les thématiques -->
 
 <div class="bloc_module_edition_choix" *ngIf="indicateursEdition.typeObjet==='thematique'">
-  <p>Quel type de modification souhaitez-vous ?</p>
-  <input type="radio" value="create" name="type_modification"
-         (change)="setTypeModification('create')"/>Créer une nouvelle thematique<br />
-  <input type="radio" value="update" name="type_modification"
-         (change)="setTypeModification('update')"/>Modifier une thematique existante<br />
-  <input type="radio" value="delete" name="type_modification"
-         (change)="setTypeModification('delete')"/>Supprimer une thematique existante<br />
+  <ng-container *ngIf="indicateursEdition.niveauThematique === 1">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="create" name="type_modification"
+           (change)="setTypeModification('create')"/>Créer un nouveau thème<br />
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un thème existant<br />
+    <input type="radio" value="delete" name="type_modification"
+           (change)="setTypeModification('delete')"/>Supprimer un thème existant<br />
+  </ng-container>
+  <ng-container *ngIf="indicateursEdition.niveauThematique === 2">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="create" name="type_modification"
+           (change)="setTypeModification('create')"/>Créer un nouveau sous-thème<br />
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un sous-thème existant<br />
+    <input type="radio" value="delete" name="type_modification"
+           (change)="setTypeModification('delete')"/>Supprimer un sous-thème existant<br />
+  </ng-container>
+  <ng-container *ngIf="indicateursEdition.niveauThematique === 3">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="create" name="type_modification"
+           (change)="setTypeModification('create')"/>Créer un nouveau sous sous-thème<br />
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un sous-thème existant<br />
+    <input type="radio" value="delete" name="type_modification"
+           (change)="setTypeModification('delete')"/>Supprimer un sous sous-thème existant<br />
+  </ng-container>
+  <ng-container *ngIf="indicateursEdition.niveauThematique === 4">
+    <p>Quel type de modification souhaitez-vous ?</p>
+    <input type="radio" value="update" name="type_modification"
+           (change)="setTypeModification('update')"/>Modifier un sous sous-thème existant<br />
+  </ng-container>
 </div>
 
 <!-- création thématique -->
@@ -16,9 +41,9 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="createThematique(f)" #f="ngForm">
 
-    <p *ngIf="indicateursEdition.niveauThematiqueCreate === 2">
+    <p *ngIf="indicateursEdition.niveauThematique === 2">
       <label for="theme">nom de la thematique parente : </label>
-      <select id="theme" name="theme" (ngModelChange)="setThematiqueNiveau1($event)" ngModel required>
+      <select id="theme" name="theme" ngModel required>
         <ng-container *ngFor="let theme of themes">
           <option [ngValue]="theme.id">{{ theme.nom}}</option>
         </ng-container>
@@ -26,9 +51,9 @@
       <br />
     </p>
 
-    <p *ngIf="indicateursEdition.niveauThematiqueCreate === 3">
+    <p *ngIf="indicateursEdition.niveauThematique === 3">
       <label for="sous_theme">nom de la thematique parente : </label>
-      <select id="sous_theme" name="sous_theme" (ngModelChange)="setThematiqueNiveau2($event)" ngModel required>
+      <select id="sous_theme" name="sous_theme" ngModel required>
         <ng-container *ngFor="let themeNiveau2 of themesNiveau2">
           <option [ngValue]="themeNiveau2.id">{{ themeNiveau2.nom}}</option>
         </ng-container>
@@ -36,22 +61,22 @@
       <br />
     </p>
 
-    <p *ngIf="indicateursEdition.niveauThematiqueCreate === 1
-              || indicateursEdition.niveauThematiqueCreate === 2
-              || indicateursEdition.niveauThematiqueCreate === 3">
+    <p *ngIf="indicateursEdition.niveauThematique === 1
+              || indicateursEdition.niveauThematique === 2
+              || indicateursEdition.niveauThematique === 3">
       <label for="nom">nom court : </label>
       <input type="text" id="nom" name="nom" ngModel required><br /><br />
       <label for="description"> description : </label>
       <input type="text" id="description" name="description" ngModel required>
     </p>
-    <p *ngIf="indicateursEdition.niveauThematiqueCreate === 1">
+    <p *ngIf="indicateursEdition.niveauThematique === 1">
       <label for="image">Image thématique :</label>
       <input type="file" name="image" id="image" accept="image/png, image/jpeg">
     </p>
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid"
-            *ngIf="indicateursEdition.niveauThematiqueCreate === 1
-              || indicateursEdition.niveauThematiqueCreate === 2
-              || indicateursEdition.niveauThematiqueCreate === 3">Créer thématique</button>
+            *ngIf="indicateursEdition.niveauThematique === 1
+              || indicateursEdition.niveauThematique === 2
+              || indicateursEdition.niveauThematique === 3">Créer thématique</button>
   </form>
 </div>
 
@@ -61,9 +86,9 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="updateThematique(f)" #f="ngForm">
     <p>Quelle thématique souhaitez-vous modifier ?</p>
-    <p>
-      <label for="thematiqueUpdate">nom de la thématique à modifier: </label>
-      <select id="thematiqueUpdate" name="thematiqueUpdate"
+    <p *ngIf="indicateursEdition.niveauThematique === 1">
+      <label for="thematiqueUpdate1">nom du thème à modifier: </label>
+      <select id="thematiqueUpdate1" name="thematiqueUpdate"
               (ngModelChange)="setUpdateThematique($event)"
               ngModel required>
         <ng-container *ngFor="let theme of themes">
@@ -72,8 +97,30 @@
       </select>
       <br />
     </p>
+    <p *ngIf="indicateursEdition.niveauThematique === 2 || indicateursEdition.niveauThematique === 3">
+      <label for="thematiqueUpdate2">nom du sous-thème à modifier: </label>
+      <select id="thematiqueUpdate2" name="thematiqueUpdate"
+              (ngModelChange)="setUpdateThematique($event)"
+              ngModel required>
+        <ng-container *ngFor="let themeNiveau2 of themesNiveau2">
+          <option [ngValue]="themeNiveau2">{{ themeNiveau2.nom}}</option>
+        </ng-container>
+      </select>
+      <br />
+    </p>
+    <p *ngIf="indicateursEdition.niveauThematique === 4">
+      <label for="thematiqueUpdate4">nom du sous sous-thème à modifier: </label>
+      <select id="thematiqueUpdate4" name="thematiqueUpdate"
+              (ngModelChange)="setUpdateThematique($event)"
+              ngModel required>
+        <ng-container *ngFor="let themeNiveau3 of themesNiveau3">
+          <option [ngValue]="themeNiveau3">{{ themeNiveau3.nom}}</option>
+        </ng-container>
+      </select>
+      <br />
+    </p>
     <p *ngIf="indicateursEdition.indicateurUpdate === true
-              && indicateursEdition.niveauThematiqueUpdate != 1">
+              && indicateursEdition.niveauThematique != 1">
       <span *ngIf="(thematiqueUpdate.niveau === 2 || thematiqueUpdate.niveau === 3)
                   && indicateursEdition.indicateurModifierThemeParent != true">
           nom du thème parent : {{ thematiqueUpdateN1.nom }}<br /><br /></span>
@@ -132,7 +179,7 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="deleteThematique(f)" #f="ngForm">
     <p>Quelle thématique souhaitez-vous supprimer ?</p>
-    <p *ngIf="indicateursEdition.niveauThematiqueDelete === 1">
+    <p *ngIf="indicateursEdition.niveauThematique === 1">
       <label for="thematiqueDeleteN1">nom de la thématique : </label>
       <select id="thematiqueDeleteN1" name="thematiqueDelete" ngModel required>
         <ng-container *ngFor="let theme of themes">
@@ -141,7 +188,7 @@
       </select>
       <br />
     </p>
-    <p *ngIf="indicateursEdition.niveauThematiqueDelete === 2">
+    <p *ngIf="indicateursEdition.niveauThematique === 2">
       <label for="thematiqueDeleteN2">nom de la thématique : </label>
       <select id="thematiqueDeleteN2" name="thematiqueDelete" ngModel required>
         <ng-container *ngFor="let themeNiveau2 of themesNiveau2">
@@ -150,7 +197,8 @@
       </select>
       <br />
     </p>
-    <p *ngIf="indicateursEdition.niveauThematiqueDelete === 3">
+
+    <p *ngIf="indicateursEdition.niveauThematique === 3">
       <label for="thematiqueDeleteN3">nom de la thématique : </label>
       <select id="thematiqueDeleteN3" name="thematiqueDelete" ngModel required>
         <ng-container *ngFor="let themeNiveau3 of themesNiveau3">

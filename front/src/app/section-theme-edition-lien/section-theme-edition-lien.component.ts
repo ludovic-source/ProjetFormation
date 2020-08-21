@@ -15,8 +15,6 @@ import { Lien } from '../models/Lien';
 })
 export class SectionThemeEditionLienComponent implements OnInit {
 
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
 
@@ -32,6 +30,15 @@ export class SectionThemeEditionLienComponent implements OnInit {
 
   liens: any[];
   liensSubscription: Subscription;
+
+  themes : any[];
+  themesSubscription : Subscription;
+
+  themesNiveau2: any[];
+  themesNiveau2Subscription : Subscription;
+
+  themesNiveau3: any[];
+  themesNiveau3Subscription : Subscription;
 
   constructor(private themeService: ThemeService,
               private lienService: LienService,
@@ -54,6 +61,21 @@ export class SectionThemeEditionLienComponent implements OnInit {
                                             this.liens = liens;
                                          });
       this.lienService.emitLiensSubject();
+      this.themesSubscription = this.themeService.themesSubject.subscribe(
+                        (themes: any[]) => {
+                                      this.themes = themes;
+                                   });
+      this.themeService.emitThemesSubject();
+      this.themesNiveau2Subscription = this.themeService.themesNiveau2Subject.subscribe(
+                      (themes: any[]) => {
+                                            this.themesNiveau2 = themes;
+                                         });
+      this.themeService.emitThemesNiveau2Subject();
+      this.themesNiveau3Subscription = this.themeService.themesNiveau3Subject.subscribe(
+                      (themes: any[]) => {
+                                            this.themesNiveau3 = themes;
+                                         });
+      this.themeService.emitThemesNiveau3Subject();
   }
 
   setTypeModification(typeModification: string) {
@@ -104,7 +126,7 @@ export class SectionThemeEditionLienComponent implements OnInit {
       if (form.value['sous_sous_theme'] != undefined) {
           lien.thematique = form.value['sous_sous_theme'];
       }
-      if (form.value['sous_theme'] == undefined) {
+      if (form.value['sous_theme'] != undefined) {
           lien.thematique = form.value['sous_theme'];
       }
       if (form.value['sous_theme'] == undefined && form.value['sous_sous_theme'] == undefined) {

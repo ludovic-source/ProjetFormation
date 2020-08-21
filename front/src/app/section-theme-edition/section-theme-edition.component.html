@@ -4,15 +4,6 @@
     <h1>Module édition</h1>
   </div>
 
-  <div class="bloc_module_edition_choix">
-    <p>Souhaitez-vous modifier:
-      <input type="radio" value="thematique" name="objet"
-             (change)="setTypeObjet('thematique')"/> une thematique ou
-      <input type="radio" value="lien" name="objet"
-             (change)="setTypeObjet('lien')"/>un lien<br />
-    </p>
-  </div>
-
   <app-section-theme-edition-lien
     *ngIf="indicateursEdition.typeObjet==='lien'">
   </app-section-theme-edition-lien>

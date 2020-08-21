@@ -10,15 +10,10 @@ export class EditionService {
                         isModeEdition: false,
                         isEdition: false,
                         typeModification: '',
-                        niveauThematiqueCreate: 0,
-                        niveauThematiqueUpdate: 0,
-                        niveauThematiqueDelete: 0,
+                        niveauThematique: 0,
                         indicateurUpdate: false,
                         indicateurModifierThemeParent: false
     };
-
-    //isModeEditionSubject = new Subject<boolean>();
-    //private isModeEdition: boolean;
 
     emitIndicateursEditionSubject() {
         this.indicateursEditionSubject.next(this.indicateursEdition);
@@ -48,24 +43,28 @@ export class EditionService {
       this.emitIndicateursEditionSubject();
   }
 
-  setLieuEdition(lieu: number) {
+  setLieuEditionThematique(lieu: number) {
       this.indicateursEdition.lieuEdition = lieu;
-      // lieu = 4 uniquement création de liens possibles
+      this.indicateursEdition.typeObjet = 'thematique';
+      // lieu = 4 uniquement création de liens possibles et suppression sous sous-thème
       if (lieu == 1) {
-          this.indicateursEdition.niveauThematiqueCreate = 1;
-          this.indicateursEdition.niveauThematiqueUpdate = 1;
-          this.indicateursEdition.niveauThematiqueDelete = 1;
+          this.indicateursEdition.niveauThematique = 1;
       }
       if (lieu == 2) {
-          this.indicateursEdition.niveauThematiqueCreate = 2;
-          this.indicateursEdition.niveauThematiqueUpdate = 2;
-          this.indicateursEdition.niveauThematiqueDelete = 2;
+          this.indicateursEdition.niveauThematique = 2;
       }
       if (lieu == 3) {
-          this.indicateursEdition.niveauThematiqueCreate = 3;
-          this.indicateursEdition.niveauThematiqueUpdate = 3;
-          this.indicateursEdition.niveauThematiqueDelete = 3;
+          this.indicateursEdition.niveauThematique = 3;
       }
+      if (lieu == 4) {
+          this.indicateursEdition.niveauThematique = 4;
+      }
+      this.emitIndicateursEditionSubject();
+  }
+
+  setLieuEditionLien(lieu: number) {
+      this.indicateursEdition.lieuEdition = lieu;
+      this.indicateursEdition.typeObjet = 'lien';
       this.emitIndicateursEditionSubject();
   }
 

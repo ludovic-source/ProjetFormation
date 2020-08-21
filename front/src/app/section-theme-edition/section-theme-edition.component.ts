@@ -16,8 +16,6 @@ export class SectionThemeEditionComponent implements OnInit {
 
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
 
   constructor(private editionService: EditionService, private router: Router) { }
 
@@ -29,10 +27,7 @@ export class SectionThemeEditionComponent implements OnInit {
       this.editionService.emitIndicateursEditionSubject();
   }
 
-  setTypeObjet(objet: string) {
-    this.indicateursEdition.typeObjet = objet;
-    this.editionService.emitIndicateursEditionSubject();
-  }
+
 
 }
 

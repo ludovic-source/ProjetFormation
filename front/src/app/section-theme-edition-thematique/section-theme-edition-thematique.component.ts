@@ -17,19 +17,12 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
 
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
 
   idThematiqueNiveau1: any;
   idThematiqueNiveau2: any;
   //thematiquesNiveau1: any[];
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
-
-  //typeModification: string;
-  //niveauThematiqueCreate: number;
-  //indicateurUpdate: boolean;
-  //indicateurModifierThemeParent: boolean;
 
   allThematiques: any[];
   allThematiquesSubscription: Subscription;
@@ -120,7 +113,7 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   }
 
   setNiveauThematiqueCreate(niveau: number) {
-      this.indicateursEdition.niveauThematiqueCreate = niveau;
+      this.indicateursEdition.niveauThematique = niveau;
       this.editionService.emitIndicateursEditionSubject();
   }
 
@@ -130,7 +123,7 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       thematique.nom = form.value['nom'];
       thematique.description = form.value['description'];
       //thematique.niveau = form.value['niveau_thematique_create'];
-      thematique.niveau = this.indicateursEdition.niveauThematiqueCreate;
+      thematique.niveau = this.indicateursEdition.niveauThematique;
       if (thematique.niveau == 1) {
           thematique.idParent = 0;
           // reste à traiter les images pour les thèmes
@@ -187,9 +180,12 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       console.log(form.value);
       const thematique = new Thematique;
       thematique.id = this.thematiqueUpdate.id;
+      //thematique.id = form.value['thematiqueUpdate.id'];
       thematique.nom = form.value['nom'];
       thematique.description = form.value['description'];
+      thematique.idParent = this.thematiqueUpdate.idParent;
       thematique.niveau = this.thematiqueUpdate.niveau;
+      //thematique.niveau = form.value['thematiqueUpdate.niveau'];
       if (thematique.niveau == 1) {
           thematique.idParent = 0;
       }
