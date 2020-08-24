@@ -28,6 +28,8 @@ export class SectionThemeEditionLienComponent implements OnInit {
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
 
+  lienUpdate: Lien;
+
   liens: any[];
   liensSubscription: Subscription;
 
@@ -153,6 +155,55 @@ export class SectionThemeEditionLienComponent implements OnInit {
       var lien = new Lien;
       lien = form.value['lien'];
       this.lienService.depublierLien(lien);
+  }
+
+  setUpdateLien(lien: Lien) {
+      this.lienUpdate = lien;
+      this.indicateursEdition.indicateurUpdate = true;
+  }
+
+  updateLien(form: NgForm) {
+      console.log(form.value);
+      var lien = new Lien;
+      lien = form.value['lien'];
+      lien.nom = form.value['nom'];
+      lien.description = form.value['description'];
+      lien.url = form.value['url'];
+      lien.mode_affichage = form.value['mode_affichage'];
+
+      if (this.indicateursEdition.indicateurModifierThemeParent == true) {
+        if (form.value['sous_sous_theme_parent'] != '') {
+            lien.thematique = form.value['sous_sous_theme_parent'];
+        } else {
+            if (form.value['sous_theme_parent'] != '') {
+                lien.thematique = form.value['sous_theme_parent'];
+            }
+        }
+        if (form.value['sous_sous_theme_parent'] == ''
+            && form.value['sous_theme_parent'] == '') {
+            lien.thematique = form.value['theme_parent'];
+        }
+      } else {
+            if (form.value['theme'] != undefined) {
+                lien.thematique = form.value['theme'];
+            }
+            if (form.value['sous_theme'] != undefined) {
+                lien.thematique = form.value['sous_theme'];
+            }
+            if (form.value['sous_sous_theme'] != undefined) {
+                lien.thematique = form.value['sous_sous_theme'];
+            }
+      }
+      console.log('lien.thematique.nom : ' + lien.thematique.nom);
+
+      this.lienService.updateLien(lien);
+      this.editionService.revenirDebutFormulaire();
+      this.lienUpdate = null;
+  }
+
+  setModifierThemeParent(valeur: boolean) {
+      this.indicateursEdition.indicateurModifierThemeParent = valeur;
+      this.editionService.emitIndicateursEditionSubject();
   }
 
 }

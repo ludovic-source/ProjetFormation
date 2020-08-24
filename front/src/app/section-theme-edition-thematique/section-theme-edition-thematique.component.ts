@@ -20,7 +20,6 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
 
   idThematiqueNiveau1: any;
   idThematiqueNiveau2: any;
-  //thematiquesNiveau1: any[];
   thematiquesNiveau2: any[];
   thematiquesNiveau3: any[];
 

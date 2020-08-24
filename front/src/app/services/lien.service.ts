@@ -120,7 +120,27 @@ export class LienService {
                       return response;
                   },
                   (error) => {
-                      alert('lien non dépublier');
+                      alert('lien non dépublié');
+                      console.log('Erreur ! : ' + error);
+                  }
+        );
+    }
+
+    updateLien(lien :Lien): any {
+        let options = {
+             withCredentials: true
+        };
+        // modifier un lien
+        this.httpClient
+             .post<any>('http://localhost:9095/portailci/lien/modifier', lien, options)
+             .subscribe(
+                  (response) => {
+                      console.log('modification lien OK');
+                      alert('lien ' + response.nom + ' modifié');
+                      return response;
+                  },
+                  (error) => {
+                      alert('lien non modifié');
                       console.log('Erreur ! : ' + error);
                   }
         );
