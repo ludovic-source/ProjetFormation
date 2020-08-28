@@ -51,12 +51,19 @@
       </button>
     </p>
     <p id="parametrage" *ngIf="getIsAuth() === true && getProfil() === 'Administrateur'">
-      <a href="maquetteParametrage.html"><img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="mode paramétrage"></a>
+      <a *ngIf="getIsModeParametrage() === false"
+         routerLink="parametrage" (click)="activerModeParametrage()">
+        <img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="activer mode paramétrage">
+      </a>
+      <a *ngIf="getIsModeParametrage() === true"
+         routerLink="parametrage" (click)="desactiverModeParametrage()">
+        <img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="désactiver mode paramétrage">
+      </a>
     </p>
   </div>
 </header>
 
-<nav *ngIf="getIsAuth() === true">
+<nav *ngIf="getIsAuth() === true && getIsModeParametrage() === false">
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">
     <a routerLink="theme/{{ theme.id }}">

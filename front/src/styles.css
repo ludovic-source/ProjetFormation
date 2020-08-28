@@ -170,7 +170,7 @@ nav
 
 #bloc_module_edition
 {
-  /*border: 0.5px solid black;*/
+  /*border: 0.5px double grey;*/
   min-width: 400px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -189,30 +189,17 @@ nav
 
 #bloc_module_parametrage
 {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
+
 }
 
 #bloc_menu_parametrage
 {
-	width : 350px;
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-top: 20px;
-	padding-bottom: 20px;
-	border: 0.5px solid black;
-	background-color: #EEEEEE;
+  /*text-align: center;*/
 }
 
 .menu_parametrage
 {
-	margin-left: 20px;
-}
 
-.menu_parametrage h1
-{
-	text-align: center;
 }
 
 .bouton_gris_clair
@@ -291,54 +278,9 @@ nav
   margin: 0px 5px 5px 0px;
 }
 
-#bloc_modification_parametrage
-{
-	/*width: 600px;*/
-	margin-left: 50px;
-	margin-right: 20px;
-	margin-top: 20px;
-	padding-bottom: 20px;
-	border: 0.5px solid black;
-	background-color: #EEEEEE;
-}
 
-#bloc_parametrage_profil_titre
-{
-	padding-left: 20px;
-}
 
-#bloc_parametrage_profil_titre h1
-{
-	text-align: center;
-}
 
-#bloc_parametrage_profil_saisie
-{
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-#bloc_parametrage_profils_actuels
-{
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-#bloc_parametrage_utlisateur_titre
-{
-	padding-left: 20px;
-}
-
-#bloc_parametrage_utlisateur_titre h1
-{
-	text-align: center;
-}
-
-#bloc_parametrage_utlisateur_saisie
-{
-	padding-left: 20px;
-	padding-right: 20px;
-}
 
 td, th
 {

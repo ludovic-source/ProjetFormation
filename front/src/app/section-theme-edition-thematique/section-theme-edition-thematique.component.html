@@ -9,6 +9,8 @@
            (change)="setTypeModification('update')"/>Modifier un thème existant<br />
     <input type="radio" value="delete" name="type_modification"
            (change)="setTypeModification('delete')"/>Supprimer un thème existant<br />
+    <input type="radio" value="upload" name="type_modification"
+           (change)="setTypeModification('upload')"/>Ajouter ou modifier l'image de fond d'un thème<br />
   </ng-container>
   <ng-container *ngIf="indicateursEdition.niveauThematique === 2">
     <p>Quel type de modification souhaitez-vous ?</p>
@@ -69,10 +71,7 @@
       <label for="description"> description : </label>
       <input type="text" id="description" name="description" ngModel required>
     </p>
-    <p *ngIf="indicateursEdition.niveauThematique === 1">
-      <label for="image">Image thématique :</label>
-      <input type="file" name="image" id="image" accept="image/png, image/jpeg">
-    </p>
+
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid"
             *ngIf="indicateursEdition.niveauThematique === 1
               || indicateursEdition.niveauThematique === 2
@@ -208,5 +207,31 @@
       <br />
     </p>
     <button class="bouton_bleu" type="submit" [disabled]="f.invalid">Supprimer thématique</button>
+  </form>
+</div>
+
+<!-- upload de l'image d'un thème -->
+<div *ngIf="indicateursEdition.typeModification == 'upload'
+            && indicateursEdition.typeObjet==='thematique'"
+     class="bloc_module_edition_saisie">
+  <form (ngSubmit)="uploadThematique(f)" #f="ngForm">
+    <p>Quelle thématique souhaitez-vous modifier ou ajouter l'image de fond ?</p>
+    <p *ngIf="indicateursEdition.niveauThematique === 1">
+      <label for="thematiqueUpload">nom du thème : </label>
+      <select id="thematiqueUpload" name="thematiqueUpload" ngModel required>
+        <ng-container *ngFor="let theme of themes">
+          <option [ngValue]="theme">{{ theme.nom}}</option>
+        </ng-container>
+      </select>
+      <br />
+    </p>
+
+    <p>
+      <label for="image">Image thématique :</label>
+      <input type="file" name="image" id="image" accept="image/png, image/jpeg"
+             (change)="uploadFileChange($event)">
+    </p>
+
+    <button  class="bouton_bleu" type="submit" [disabled]="f.invalid">Upload de l'image</button>
   </form>
 </div>

@@ -14,16 +14,24 @@ import { AuthGuard } from './services/auth-guard.service';
 import { ThemeService } from './services/theme.service';
 import { LienService } from './services/lien.service';
 import { EditionService } from './services/edition.service';
+import { ProfilService } from './services/profil.service';
+import { DroitService } from './services/droit.service';
+import { UtilisateurService } from './services/utilisateur.service';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { SectionThemeArbreComponent } from './section-theme-arbre/section-theme-arbre.component';
 import { SectionThemeEditionComponent } from './section-theme-edition/section-theme-edition.component';
 import { SectionThemeEditionThematiqueComponent } from './section-theme-edition-thematique/section-theme-edition-thematique.component';
 import { SectionThemeEditionLienComponent } from './section-theme-edition-lien/section-theme-edition-lien.component';
+import { SectionParametrageComponent } from './section-parametrage/section-parametrage.component';
+import { SectionParametrageProfilComponent } from './section-parametrage-profil/section-parametrage-profil.component';
+import { SectionParametrageUtilisateurComponent } from './section-parametrage-utilisateur/section-parametrage-utilisateur.component';
 
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
+  { path: 'theme', canActivate: [AuthGuard], component: SectionComponent },
   { path: 'theme/:id', canActivate: [AuthGuard], component: SectionComponent },
   { path: 'edition', canActivate: [AuthGuard], component: SectionThemeEditionComponent },
+  { path: 'parametrage', canActivate: [AuthGuard], component: SectionParametrageComponent },
   { path: '', component: SectionArticleConnexionComponent }
 ];
 
@@ -35,7 +43,10 @@ const appRoutes: Routes = [
     SectionThemeArbreComponent,
     SectionThemeEditionComponent,
     SectionThemeEditionThematiqueComponent,
-    SectionThemeEditionLienComponent
+    SectionThemeEditionLienComponent,
+    SectionParametrageComponent,
+    SectionParametrageProfilComponent,
+    SectionParametrageUtilisateurComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +61,9 @@ const appRoutes: Routes = [
     ThemeService,
     LienService,
     EditionService,
+    UtilisateurService,
+    ProfilService,
+    DroitService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

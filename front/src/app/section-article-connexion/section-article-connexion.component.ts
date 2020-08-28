@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
-//import { ThemeService } from '../services/theme.service';
-
 
 @Component({
   selector: 'app-section-article-connexion',
@@ -16,10 +14,6 @@ export class SectionArticleConnexionComponent implements OnInit, OnDestroy {
   user: any;
   userSubscription: Subscription;
 
-  //themes : any[];
-  //themesSubscription : Subscription;
-
-  //constructor(private authService: AuthService, private themeService: ThemeService, private router: Router) { }
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -31,8 +25,6 @@ export class SectionArticleConnexionComponent implements OnInit, OnDestroy {
       const username = form.value['username'];
       const password = form.value['password'];
       this.login(username, password);
-      //await this.login(username, password);
-      //this.preparationMenuNav();
    }
 
    async login(username: string, password: string) {
@@ -50,16 +42,5 @@ export class SectionArticleConnexionComponent implements OnInit, OnDestroy {
    getIsAuth() {
       return this.authService.getIsAuth();
    }
-
-  /*
-   preparationMenuNav() {
-         this.themeService.getThemes(0);
-         this.themesSubscription = this.themeService.themesSubject.subscribe(
-                         (themes: any[]) => {
-                                               this.themes = themes;
-                                            });
-         this.themeService.emitThemesSubject();
-   }
-   */
 
 }

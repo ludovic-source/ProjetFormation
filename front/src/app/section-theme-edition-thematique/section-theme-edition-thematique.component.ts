@@ -39,6 +39,8 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   themesNiveau3: any[];
   themesNiveau3Subscription : Subscription;
 
+  file;
+
   //messageReponseFormulaire: string;
 
   constructor(private themeService: ThemeService,
@@ -179,12 +181,11 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
       console.log(form.value);
       const thematique = new Thematique;
       thematique.id = this.thematiqueUpdate.id;
-      //thematique.id = form.value['thematiqueUpdate.id'];
       thematique.nom = form.value['nom'];
       thematique.description = form.value['description'];
       thematique.idParent = this.thematiqueUpdate.idParent;
       thematique.niveau = this.thematiqueUpdate.niveau;
-      //thematique.niveau = form.value['thematiqueUpdate.niveau'];
+
       if (thematique.niveau == 1) {
           thematique.idParent = 0;
       }
@@ -202,8 +203,6 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
           thematique.idParent = form.value['sous_theme_parent'];
       }
 
-      //reste à faire la modification de l'image + la modification du thème/sous-thème parent
-
       if (this.thematiqueUpdate.imagePath == null) {
           thematique.imagePath = '';
       } else {
@@ -219,6 +218,18 @@ export class SectionThemeEditionThematiqueComponent implements OnInit {
   setModifierThemeParent(valeur: boolean) {
       this.indicateursEdition.indicateurModifierThemeParent = valeur;
       this.editionService.emitIndicateursEditionSubject();
+  }
+
+  uploadThematique(form: NgForm) {
+      console.log(form.value);
+      var thematique = new Thematique;
+      thematique = form.value['thematiqueUpload'];
+      this.themeService.uploadImageTheme(thematique, this.file);
+  }
+
+  uploadFileChange(event) {
+      this.file = event.target.files[0];
+      console.log('image récupérée');
   }
 
 }

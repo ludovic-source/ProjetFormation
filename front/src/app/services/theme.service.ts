@@ -321,4 +321,32 @@ export class ThemeService {
            );
   }
 
+  uploadImageTheme(theme: any, file) {
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+      uploadData.append('theme', theme);
+      let options = {
+//                  reportProgress: true,
+//                  observe: 'event',
+                  withCredentials: true
+      };
+      // uploader l'image de fond d'un thème
+      this.httpClient
+           .post<any>('http://localhost:9095/portailci/thematique/updateupload', uploadData, options)
+           .subscribe(
+               (response) => {
+                    console.log('upload image OK');
+                    alert('thématique ' + response.nom + ' : image uploadée avec succès');
+                    return response;
+               },
+               (error) => {
+                    alert('upload image non réalisé');
+                    console.log('Erreur ! : ' + error);
+               }
+//               (event) => {
+//                    console.log(event);
+//               }
+           );
+  }
+
 }

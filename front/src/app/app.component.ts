@@ -12,8 +12,6 @@ styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
   isModeParametrage = false;
@@ -76,6 +74,11 @@ export class AppComponent implements OnInit, OnDestroy {
    desactiverModeEdition() {
       this.editionService.desactiverModeEdition();
    }
+
+   getIsModeParametrage(): boolean {
+      return this.isModeParametrage;
+   }
+
    activerModeParametrage() {
       this.isModeParametrage = true;
       this.editionService.desactiverModeEdition();
@@ -83,6 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
    desactiverModeParametrage() {
       this.isModeParametrage = false;
+      this.router.navigate(['theme']);
    }
 
    editerThematique(lieuEdition: number) {
