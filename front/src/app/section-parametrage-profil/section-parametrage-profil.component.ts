@@ -21,6 +21,9 @@ export class SectionParametrageProfilComponent implements OnInit {
   allDroits : any[];
   allDroitsSubscription : Subscription;
 
+  profil: Profil;
+  indicateurProfil = false;
+
   constructor(private profilService: ProfilService, private droitService: DroitService) { }
 
   ngOnInit(): void {
@@ -28,6 +31,8 @@ export class SectionParametrageProfilComponent implements OnInit {
                         (allProfils: any) => {
                                               this.allProfils = allProfils;
                                                     });
+      this.profilService.emitAllProfilsSubject();
+      this.profilService.getAllProfils();
       this.profilService.emitAllProfilsSubject();
       this.allDroitsSubscription = this.droitService.allDroitsSubject.subscribe(
                         (allDroits: any) => {
@@ -38,8 +43,8 @@ export class SectionParametrageProfilComponent implements OnInit {
 
   setTypeModification(typeModification: string) {
       this.typeModification = typeModification;
-      this.profilService.getAllProfils();
-      this.profilService.emitAllProfilsSubject();
+      //this.profilService.getAllProfils();
+      //this.profilService.emitAllProfilsSubject();
       this.droitService.getAllDroits();
       this.droitService.emitAllDroitsSubject();
   }
@@ -64,7 +69,50 @@ export class SectionParametrageProfilComponent implements OnInit {
           profil.description = form.value['description'];
           profil.droits = droitsProfil;
           this.profilService.createProfil(profil);
+          this.reinitialiserFormulaire();
       }
-
   }
+
+  setProfil(profil: any) {
+      this.profil = profil;
+      this.indicateurProfil = true;
+  }
+
+  updateProfil(form: NgForm) {
+      console.log(form.value);
+      const nbreAllDroits = this.allDroits.length;
+      var nbreDroitsVides = 0;
+      const droitsProfil = [];
+      const profil = form.value['profil'];
+      for (let droit of this.allDroits) {
+          if (form.value[droit.nom] == '' || form.value[droit.nom] == false) {
+              nbreDroitsVides += 1;
+          } else {
+              droitsProfil.push(droit);
+          }
+      }
+      if (nbreDroitsVides == nbreAllDroits) {
+          alert('veuillez cocher au moins un droit');
+      } else {
+          profil.nom = form.value['nom'];
+          profil.description = form.value['description'];
+          profil.droits = droitsProfil;
+          this.profilService.updateProfil(profil);
+          this.reinitialiserFormulaire();
+      }
+  }
+
+  deleteProfil(form: NgForm) {
+      console.log(form.value);
+      const profil = form.value['profil'];
+      this.profilService.deleteProfil(profil);
+      this.reinitialiserFormulaire();
+  }
+
+  reinitialiserFormulaire() {
+      this.profil = null;
+      this.indicateurProfil = false;
+      this.typeModification = '';
+  }
+
 }

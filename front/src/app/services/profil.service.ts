@@ -87,9 +87,9 @@ export class ProfilService {
                    withCredentials: true
         };
         this.httpClient
-           .delete<any>('http://localhost:9095/portailci/profils/delete/' + profil.id, options)
+           .delete('http://localhost:9095/portailci/profils/delete/' + profil.id, options)
            .subscribe(
-               () => {
+               (response) => {
                     console.log('suppression profil OK');
                     alert('profil ' + profil.nom + ' supprimé');
                     var index = 0;
@@ -104,8 +104,23 @@ export class ProfilService {
                     this.emitAllProfilsSubject();
                },
                (error) => {
-                    alert('profil non supprimé');
-                    console.log('Erreur ! : ' + error);
+                    if (error == 'OK') {
+                        console.log('suppression profil OK');
+                        alert('profil ' + profil.nom + ' supprimé');
+                        var index = 0;
+                        var indexRecherche: number;
+                        for (let profilCourant of this.allProfils) {
+                            if (profilCourant.id == profil.id) {
+                                indexRecherche = index;
+                            }
+                            index = index + 1;
+                        }
+                        this.allProfils.splice(indexRecherche, 1);
+                        this.emitAllProfilsSubject();
+                    } else {
+                        alert('profil non supprimé');
+                        console.log('Erreur ! : ' + error);
+                    }
                }
         );
     }
