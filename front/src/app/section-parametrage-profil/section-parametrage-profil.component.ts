@@ -43,8 +43,6 @@ export class SectionParametrageProfilComponent implements OnInit {
 
   setTypeModification(typeModification: string) {
       this.typeModification = typeModification;
-      //this.profilService.getAllProfils();
-      //this.profilService.emitAllProfilsSubject();
       this.droitService.getAllDroits();
       this.droitService.emitAllDroitsSubject();
   }
