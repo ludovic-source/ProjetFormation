@@ -87,7 +87,13 @@ export class ThemeService {
   }
 
   getImageTheme(id: number) {
-    return this.themes[id-1].imagePath;
+    //console.log('recherche image thème :' + id);
+    for (let theme of this.themes) {
+        if (theme.id == id) {
+            return theme.imagePath;
+        }
+    }
+    return 'non trouvée';
   }
 
   initThemeNiveau3Subject() {

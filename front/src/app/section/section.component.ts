@@ -13,8 +13,6 @@ export class SectionComponent implements OnInit {
 
   idTheme: number;
 
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
 

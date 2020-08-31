@@ -28,8 +28,6 @@ export class SectionThemeArbreComponent implements OnInit {
   liens: any[];
   liensSubscription: Subscription;
 
-  //isModeEdition: boolean;
-  //isModeEditionSubscription : Subscription;
   indicateursEdition: any;
   indicateursEditionSubscription: Subscription;
 
@@ -82,7 +80,8 @@ export class SectionThemeArbreComponent implements OnInit {
   }
 
   getImage() {
-      return this.themeService.getImageTheme(this.idTheme);
+      //console.log('/assets/images/' + this.themeService.getImageTheme(this.idTheme));
+      return '/assets/images/' + this.themeService.getImageTheme(this.idTheme);
   }
 
   async constructionArbre() {
