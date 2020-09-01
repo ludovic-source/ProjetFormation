@@ -78,12 +78,12 @@ export class SectionThemeArbreComponent implements OnInit {
   getIdTheme() {
       return this.idTheme;
   }
-
+/*
   getImage() {
       //console.log('/assets/images/' + this.themeService.getImageTheme(this.idTheme));
       return '/assets/images/' + this.themeService.getImageTheme(this.idTheme);
   }
-
+*/
   async constructionArbre() {
       console.log('section-theme / idTheme : ' + this.idTheme);
       this.themesNiveau2 = await this.recuperationThematiquesNiveau2();

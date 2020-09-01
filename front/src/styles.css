@@ -67,7 +67,12 @@ nav
 	justify-content: space-around;
 	align-items: center;
 	height: 60px;
+}
 
+.menu_options
+{
+  display: flex;
+  flex-direction: row;
 }
 
 .button_menu

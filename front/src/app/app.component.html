@@ -3,9 +3,6 @@
     <div id="contact_mail">
       <p>Contact : MLIST PARIS............</p>
     </div>
-    <div id="contact_phone">
-      <p>01 40 14 13 04</p>
-    </div>
   </div>
 
   <div id="bloc_titre">
@@ -20,12 +17,12 @@
       mais juste une info bulle pour indiquer le prenom et le nom de l'utilisateur connecté ou déconnexion -->
     <p class="connexion" *ngIf="getIsAuth() === true">
       <button class="button_menu" (click)="onSignOut()">
-        <img src="/assets/images/person24px.svg" alt="déconnexion" title="se déconnecter">
+        <img src="/assets/images/icons8_user_30px.png" alt="déconnexion" title="se déconnecter">
       </button>
     </p>
     <p class="connexion" *ngIf="getIsAuth() === false">
       <a routerLink="">
-        <img src="/assets/images/person24px.svg" alt="déconnexion" title="se connecter">
+        <img src="/assets/images/icons8_user_30px.png" alt="déconnexion" title="se connecter">
       </a>
     </p>
     <!-- pour les utilisateurs de type Admin et de type 2 lorsqu'ils sont déjà connectés.
@@ -37,7 +34,7 @@
               *ngIf="indicateursEdition.isModeEdition != true"
               (click)="activerModeEdition()">
               <!-- routerLink="edition"> -->
-        <img src="/assets/images/pencil24px.svg"
+        <img src="/assets/images/icons8_pencil_30px.png"
              alt="activer le mode édition de liens"
              title="activer le mode édition de liens">
       </button>
@@ -45,7 +42,7 @@
               *ngIf="indicateursEdition.isModeEdition === true"
               (click)="desactiverModeEdition()">
               <!-- routerLink=""> -->
-          <img src="/assets/images/pencil24px.svg"
+          <img src="/assets/images/icons8_no_edit_30px.png"
                alt="désactiver le mode édition de liens"
                title="désactiver le mode édition de liens">
       </button>
@@ -53,20 +50,26 @@
     <p id="parametrage" *ngIf="getIsAuth() === true && getProfil() === 'Administrateur'">
       <a *ngIf="getIsModeParametrage() === false"
          routerLink="parametrage" (click)="activerModeParametrage()">
-        <img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="activer mode paramétrage">
+        <img src="/assets/images/icons8_admin_settings_male_30px.png" alt="mode paramétrage" title="activer mode paramétrage">
       </a>
       <a *ngIf="getIsModeParametrage() === true"
          routerLink="parametrage" (click)="desactiverModeParametrage()">
-        <img src="/assets/images/gear24px.svg" alt="mode paramétrage" title="désactiver mode paramétrage">
+        <img src="/assets/images/icons8_admin_settings_male_stop_30px.png" alt="mode paramétrage" title="désactiver mode paramétrage">
       </a>
     </p>
   </div>
 </header>
 
+<nav *ngIf="getIsAuth() === true && getIsModeParametrage() === true">
+</nav>
+
 <nav *ngIf="getIsAuth() === true && getIsModeParametrage() === false">
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">
-    <a routerLink="theme/{{ theme.id }}">
+    <a class="menu_options" routerLink="theme/{{ theme.id }}">
+      <div>
+        <img src="/assets/images/{{ getImage(theme) }}">
+      </div>
       <h3 title="{{ theme.description }}">{{ theme.nom }}</h3>
     </a>
   </div>

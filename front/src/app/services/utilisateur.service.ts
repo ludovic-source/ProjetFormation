@@ -10,35 +10,35 @@ export class UtilisateurService {
     private allUtilisateurs: any[];
 
     private collaborateursBDDF = [
-            { UID: '100100',
+            { uid: '100100',
               nom: 'Harden',
               prenom: 'James',
-              UOAffectation: 'Houston Rockets'
+              uoAffectation: 'Houston Rockets'
             },
-            { UID: 'A00100',
+            { uid: 'A00100',
               nom: 'James',
               prenom: 'Lebron',
-              UOAffectation: 'Los Angeles Lakers'
+              uoAffectation: 'Los Angeles Lakers'
             },
-            { UID: 'B00100',
+            { uid: 'B00100',
               nom: 'Antetokoumpo',
               prenom: 'Gianis',
-              UOAffectation: 'Milwaukee Bucks'
+              uoAffectation: 'Milwaukee Bucks'
             },
-            { UID: 'C00100',
+            { uid: 'C00100',
               nom: 'Durant',
               prenom: 'Kevin',
               UOAffectation: 'Brooklyn Nets'
             },
-            { UID: 'D00100',
+            { uid: 'D00100',
               nom: 'Williamson',
               prenom: 'Zion',
-              UOAffectation: 'New Orleans Pelicans'
+              uoAffectation: 'New Orleans Pelicans'
             },
-            { UID: 'E00100',
+            { uid: 'E00100',
               nom: 'Davis',
               prenom: 'Antony',
-              UOAffectation: 'Los Angeles Lakers'
+              uoAffectation: 'Los Angeles Lakers'
             }];
 
     constructor(private httpClient: HttpClient) {
@@ -71,7 +71,7 @@ export class UtilisateurService {
      }
 
     createUtilisateur(utilisateur: Utilisateur): any {
-        console.log('uid : ' + utilisateur.UID);
+        console.log('uid : ' + utilisateur.uid);
         let options = {
                    withCredentials: true
         };

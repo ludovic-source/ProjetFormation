@@ -21,16 +21,16 @@
         <select id="collaborateur_select" name="collaborateur"
                 (ngModelChange)="setCollaborateur($event)" ngModel required>
           <ng-container *ngFor="let collaborateur of allCollaborateurs">
-            <option [ngValue]="collaborateur">{{ collaborateur.UID}} - {{ collaborateur.nom }}</option>
+            <option [ngValue]="collaborateur">{{ collaborateur.uid}} - {{ collaborateur.nom }}</option>
           </ng-container>
         </select>
       </p>
 
       <p *ngIf="indicateurCollaborateur === true">
-        UID : {{ collaborateur.UID }} <br />
+        UID : {{ collaborateur.uid }} <br />
         nom : {{ collaborateur.nom }} <br />
         prénom : {{ collaborateur.prenom }} <br />
-        UO d'affectation : {{ collaborateur.UOAffectation }} <br /><br />
+        UO d'affectation : {{ collaborateur.uoAffectation }} <br /><br />
 
         <em>Complétez les champs obligatoires : </em><br />
         <label for="password">mot de passe : </label>
@@ -58,15 +58,15 @@
         <select id="utilisateur_update" name="utilisateur"
                 (ngModelChange)="setUtilisateur($event)" ngModel required>
           <ng-container *ngFor="let utilisateur of allUtilisateurs">
-            <option [ngValue]="utilisateur">{{ utilisateur.UID }} - {{ utilisateur.nom}}</option>
+            <option [ngValue]="utilisateur">{{ utilisateur.uid }} - {{ utilisateur.nom}}</option>
           </ng-container>
         </select>
       </p>
       <p *ngIf="indicateurUtilisateur === true">
-        UID : {{ utilisateur.UID }} <br />
+        UID : {{ utilisateur.uid }} <br />
         nom : {{ utilisateur.nom }} <br />n
         prénom : {{ utilisateur.prenom }} <br />
-        UO d'affectation : {{ utilisateur.UOAffectation }} <br />
+        UO d'affectation : {{ utilisateur.uoAffectation }} <br />
         profil actuel : {{ utilisateur.profil.nom }} <br /><br />
 
         <em>Sélectionnez le nouveau profil de l'utilisateur : </em>
@@ -91,15 +91,15 @@
         <select id="utilisateur_password" name="utilisateur"
                 (ngModelChange)="setUtilisateur($event)" ngModel required>
           <ng-container *ngFor="let utilisateur of allUtilisateurs">
-            <option [ngValue]="utilisateur">{{ utilisateur.UID }} - {{ utilisateur.nom}}</option>
+            <option [ngValue]="utilisateur">{{ utilisateur.uid }} - {{ utilisateur.nom}}</option>
           </ng-container>
         </select>
       </p>
       <p *ngIf="indicateurUtilisateur === true">
-        UID : {{ utilisateur.UID }} <br />
+        UID : {{ utilisateur.uid }} <br />
         nom : {{ utilisateur.nom }} <br />
         prénom : {{ utilisateur.prenom }} <br />
-        UO d'affectation : {{ utilisateur.UOAffectation }} <br /><br />
+        UO d'affectation : {{ utilisateur.uoAffectation }} <br /><br />
         <label for="password_update">nouveau mot de passe : </label>
         <input type="text" id="password_update" name="password" ngModel required><br /><br />
       </p>
@@ -117,7 +117,7 @@
         <em>Sélectionnez l'utilisateur à supprimer : </em>
         <select id="utilisateur_delete" name="utilisateur" ngModel required>
           <ng-container *ngFor="let utilisateur of allUtilisateurs">
-            <option [ngValue]="utilisateur">{{ utilisateur.nom}}</option>
+            <option [ngValue]="utilisateur">{{ utilisateur.uid }} - {{ utilisateur.nom}}</option>
           </ng-container>
         </select>
       </p>

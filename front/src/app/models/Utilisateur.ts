@@ -1,14 +1,14 @@
 export class Utilisateur {
 
-    UID: string;
+    id: number;
+    uid: string;
     nom: string;
     prenom: string;
     motDePasse: string;
-    UOAffectation: string;
+    uoAffectation: string;
     siteExercice: string;
     fonction: string;
     profil: any;
-    id: number;
 
     constructor() { }
 

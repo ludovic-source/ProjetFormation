@@ -85,7 +85,7 @@ export class ThemeService {
   emitAllThematiquesSubject() {
       this.allThematiquesSubject.next(this.allThematiques);
   }
-
+/*
   getImageTheme(id: number) {
     //console.log('recherche image thème :' + id);
     for (let theme of this.themes) {
@@ -95,7 +95,7 @@ export class ThemeService {
     }
     return 'non trouvée';
   }
-
+*/
   initThemeNiveau3Subject() {
       this.themesNiveau3.splice(0);
       this.emitThemesNiveau3Subject();

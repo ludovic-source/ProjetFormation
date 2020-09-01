@@ -55,13 +55,13 @@ export class SectionParametrageUtilisateurComponent implements OnInit {
   createUtilisateur(form: NgForm) {
       console.log(form.value);
       const utilisateur = new Utilisateur;
-      utilisateur.UID = this.collaborateur.UID;
+      utilisateur.uid = this.collaborateur.uid;
 
       utilisateur.motDePasse = form.value['password'];
       utilisateur.nom = this.collaborateur.nom;
       utilisateur.prenom = this.collaborateur.prenom;
       utilisateur.profil = form.value['profil'];
-      utilisateur.UOAffectation = this.collaborateur.UOAffectation;
+      utilisateur.uoAffectation = this.collaborateur.uoAffectation;
       utilisateur.siteExercice = 'test';
       utilisateur.fonction = 'test';
 
@@ -83,12 +83,12 @@ export class SectionParametrageUtilisateurComponent implements OnInit {
       console.log(form.value);
       var utilisateur = new Utilisateur;
       utilisateur = form.value['utilisateur'];
-      //utilisateur.UID = form.value['UID'];
+      //utilisateur.uid = form.value['uid'];
       //utilisateur.motDePasse = form.value['password'];
       //utilisateur.nom = form.value['nom'];
       //utilisateur.prenom = form.value['prenom'];
       utilisateur.profil = form.value['profil'];
-      //utilisateur.UOAffectation = form.value['UOAffectation'];
+      //utilisateur.uoAffectation = form.value['uoAffectation'];
       //utilisateur.siteExercice = 'test';
       //utilisateur.fonction = 'test';
 
