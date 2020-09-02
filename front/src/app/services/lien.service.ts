@@ -92,7 +92,7 @@ export class LienService {
         };
         // Publier un lien
         this.httpClient
-             .post<any>('http://localhost:9095/portailci/lien/publier', lien, options)
+             .put<any>('http://localhost:9095/portailci/lien/publier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('publication lien OK');
@@ -112,7 +112,7 @@ export class LienService {
         };
         // Depublier un lien
         this.httpClient
-             .post<any>('http://localhost:9095/portailci/lien/depublier', lien, options)
+             .put<any>('http://localhost:9095/portailci/lien/depublier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('dépublication lien OK');
@@ -132,7 +132,7 @@ export class LienService {
         };
         // modifier un lien
         this.httpClient
-             .post<any>('http://localhost:9095/portailci/lien/modifier', lien, options)
+             .put<any>('http://localhost:9095/portailci/lien/modifier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('modification lien OK');

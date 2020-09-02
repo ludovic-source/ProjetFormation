@@ -102,22 +102,22 @@ export class AppComponent implements OnInit, OnDestroy {
       //return theme.imagePath;
       // ci-dessous, juste pour les tests en attendant la mise en place de l'upload d'image
       if (theme.id == 1) {
-          return 'icons8_f1_car_30px.png';
+          return 'icons8_f1_car_24px.png';
       }
       if (theme.id == 2) {
-          return 'icons8_golf_cart_30px.png';
+          return 'icons8_golf_cart_24px.png';
       }
       if (theme.id == 3) {
-          return 'icons8_people_in_car_side_view_30px.png';
+          return 'icons8_people_in_car_side_view_24px.png';
       }
       if (theme.id == 4) {
-          return 'icons8_food_truck_30px.png';
+          return 'icons8_food_truck_24px.png';
       }
       if (theme.id == 5) {
-          return 'icons8_tractor_30px.png';
+          return 'icons8_tractor_24px.png';
       }
       if (theme.id == 36) {
-          return 'icons8_rocket_30px.png';
+          return 'icons8_rocket_24px.png';
       }
    }
 

@@ -149,6 +149,7 @@ export class SectionThemeEditionLienComponent implements OnInit {
       var lien = new Lien;
       lien = form.value['lien'];
       this.lienService.publierLien(lien);
+      this.editionService.revenirDebutFormulaire();
   }
 
   depublierLien(form: NgForm) {

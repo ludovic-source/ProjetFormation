@@ -29,11 +29,11 @@
     Lorsque l'utilisateur n'est pas connecté, on n'affiche pas l'icône -->
     <p id="edition" *ngIf="getIsAuth() === true
                            && ( getProfil() === 'Administrateur' || getProfil() === 'Rédacteur' )">
-      <!-- <a href="maquetteEdition.html"><img src="/assets/images/pencil24px.svg" alt="mode édition de liens" title="mode édition de liens"></a> -->
+
       <button class="button_menu"
               *ngIf="indicateursEdition.isModeEdition != true"
               (click)="activerModeEdition()">
-              <!-- routerLink="edition"> -->
+
         <img src="/assets/images/icons8_pencil_30px.png"
              alt="activer le mode édition de liens"
              title="activer le mode édition de liens">
@@ -41,7 +41,7 @@
       <button class="button_menu"
               *ngIf="indicateursEdition.isModeEdition === true"
               (click)="desactiverModeEdition()">
-              <!-- routerLink=""> -->
+
           <img src="/assets/images/icons8_no_edit_30px.png"
                alt="désactiver le mode édition de liens"
                title="désactiver le mode édition de liens">

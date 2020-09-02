@@ -80,7 +80,7 @@
      class="bloc_module_edition_saisie">
   <form (ngSubmit)="publierLien(f)" #f="ngForm">
 
-    <p *ngIf="indicateursEdition.lieuEdition === 1">
+    <p *ngIf="indicateursEdition.lieuEdition === 1 || indicateursEdition.lieuEdition === 2">
       <em>Recherchez le lien "pré-publié" à partir des thématiques : </em><br /><br />
       <label for="theme_publication">nom du thème : </label>
       <select id="theme_publication" name="theme"
