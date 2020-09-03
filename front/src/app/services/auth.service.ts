@@ -22,7 +22,7 @@ export class AuthService {
   themesSubscription : Subscription;
 
   constructor(private httpClient: HttpClient, private themeService: ThemeService, private router: Router) {
-  //constructor(private httpClient: HttpClient, private router: Router) {
+
   }
 
   emitUserSubject() {
@@ -36,7 +36,8 @@ export class AuthService {
 
   signOut() {
     this.logout();
-    this.user.isAuth = false;
+    //this.user.isAuth = false;
+    this.user = { isAuth : false, username : "", profil : ""};
     this.emitUserSubject();
     sessionStorage.clear();
   }

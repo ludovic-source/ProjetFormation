@@ -59,6 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
    }
 
    onSignOut() {
+      this.isModeParametrage = false;
+      this.editionService.revenirDebutFormulaire();
       this.authService.signOut();
    }
 
