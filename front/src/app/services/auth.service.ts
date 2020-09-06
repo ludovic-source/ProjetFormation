@@ -14,7 +14,11 @@ export class AuthService {
   private user =
                   { isAuth : false,
                     username : "",
-                    profil : ""
+                    droits : [{
+                        id: 0,
+                        nom: '',
+                        description: ''
+                    }]
                   }
                  ;
 
@@ -36,8 +40,10 @@ export class AuthService {
 
   signOut() {
     this.logout();
-    //this.user.isAuth = false;
-    this.user = { isAuth : false, username : "", profil : ""};
+    this.user.isAuth = false;
+    this.user.username = '';
+    this.user.droits.splice(0);
+
     this.emitUserSubject();
     sessionStorage.clear();
   }
@@ -100,11 +106,15 @@ export class AuthService {
            withCredentials: true
      };
      this.httpClient
-          .get<any>('http://localhost:9095/portailci/utilisateurs/getByUID/' + this.user.username, options)
+          //.get<any>('http://localhost:9095/portailci/utilisateurs/getByUID/' + this.user.username, options)
+          .get<any>('http://localhost:9095/portailci/profils/get/connectedUser', options)
           .subscribe(
             (response) => {
-              this.user.profil = response.profil.nom;
-              console.log('profil : ' + this.user.profil);
+              console.log('profil : ' + response.nom);
+              this.user.droits = response.droits;
+              for (let droit of this.user.droits) {
+                  console.log('droits : ' + droit.nom);
+              }
               this.emitUserSubject();
             },
             (error) => {
@@ -113,8 +123,15 @@ export class AuthService {
      );
   }
 
-  getProfilUser() {
-      return this.user.profil;
+  controleDroitUser(droitAVerifier: string) : boolean {
+      var droits:any[];
+      droits = this.user.droits;
+      for (let droit of droits) {
+          if (droit.nom == droitAVerifier) {
+              return true;
+          }
+      }
+      return false;
   }
 
   // permet de récupérer les thèmes pour les afficher dans le menu - cette opération ne peut se faire que quand

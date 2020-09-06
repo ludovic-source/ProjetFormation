@@ -28,7 +28,9 @@
     <!-- pour les utilisateurs de type Admin et de type 2 lorsqu'ils sont déjà connectés.
     Lorsque l'utilisateur n'est pas connecté, on n'affiche pas l'icône -->
     <p id="edition" *ngIf="getIsAuth() === true
-                           && ( getProfil() === 'Administrateur' || getProfil() === 'Rédacteur' )">
+                           && ( controleDroitUser('Modification') === true
+                                || controleDroitUser('Création') === true
+                                || controleDroitUser('Suppression') === true)">
 
       <button class="button_menu"
               *ngIf="indicateursEdition.isModeEdition != true"
@@ -47,7 +49,7 @@
                title="désactiver le mode édition de liens">
       </button>
     </p>
-    <p id="parametrage" *ngIf="getIsAuth() === true && getProfil() === 'Administrateur'">
+    <p id="parametrage" *ngIf="getIsAuth() === true && controleDroitUser('Administration') === true">
       <a *ngIf="getIsModeParametrage() === false"
          routerLink="parametrage" (click)="activerModeParametrage()">
         <img src="/assets/images/icons8_admin_settings_male_30px.png" alt="mode paramétrage" title="activer mode paramétrage">

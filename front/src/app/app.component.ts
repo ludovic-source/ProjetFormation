@@ -63,9 +63,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.editionService.revenirDebutFormulaire();
       this.authService.signOut();
    }
-
+/*
    getProfil() {
       return this.authService.getProfilUser();
+   }
+*/
+
+   controleDroitUser(droit: string): boolean {
+      return this.authService.controleDroitUser(droit);
    }
 
    activerModeEdition() {
