@@ -29,7 +29,7 @@ import { SectionParametrageUtilisateurComponent } from './section-parametrage-ut
 const appRoutes: Routes = [
   { path: 'connexion', component: SectionArticleConnexionComponent },
   { path: 'theme', canActivate: [AuthGuard], component: SectionComponent },
-  { path: 'theme/:id', component: SectionComponent },
+  { path: 'theme/:id', canActivate: [AuthGuard], component: SectionComponent },
   { path: 'edition', canActivate: [AuthGuard], component: SectionThemeEditionComponent },
   { path: 'parametrage', canActivate: [AuthGuard], component: SectionParametrageComponent },
   { path: '', component: SectionArticleConnexionComponent }

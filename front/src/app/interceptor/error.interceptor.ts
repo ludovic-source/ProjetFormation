@@ -19,9 +19,19 @@ export class ErrorInterceptor implements HttpInterceptor {
                 alert("UID ou mot de passe incorrect");
             }
             if (err.status === 500) {
+                console.log("err : " + err.error);
+                alert("erreur 500 " + err.error);
+                console.log(err.error);
+            }
+            if (err.status === 400) {
                 console.log("err : " + err);
-                alert("erreur 500 : quel message exploiter ?");
-                console.log(err.error.message);
+                alert("erreur 400 - mauvaise requête : " + err.error);
+                console.log(err.error);
+            }
+            if (err.status === 404) {
+                console.log("err : " + err);
+                alert("erreur 404 - non trouvé : " + err.error);
+                console.log(err.error);
             }
 
             const error = err.error.message || err.statusText;
