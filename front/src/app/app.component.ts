@@ -126,6 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (theme.id == 36) {
           return 'icons8_rocket_24px.png';
       }
+      return '';
    }
 
 }

@@ -69,7 +69,7 @@
   <div class="menu" *ngFor="let theme of themes"
        routerLinkActive="active">
     <a class="menu_options" routerLink="theme/{{ theme.id }}">
-      <div>
+      <div *ngIf="getImage(theme) != null && getImage(theme) != ''">
         <img src="/assets/images/{{ getImage(theme) }}">
       </div>
       <h3 title="{{ theme.description }}">{{ theme.nom }}</h3>
