@@ -111,6 +111,7 @@ export class ThemeService {
                 (response) => {
                   this.themes = response;
                   console.log('récupération thèmes OK');
+                  this.trierThemesIdCroissant();
                   this.emitThemesSubject();
                 },
                 (error) => {
@@ -128,6 +129,7 @@ export class ThemeService {
                 .subscribe(
                   (response) => {
                     this.themesNiveau2 = response;
+                    this.trierThemesNiveau2IdCroissant();
                     this.emitThemesNiveau2Subject();
                   },
                   (error) => {
@@ -146,6 +148,7 @@ export class ThemeService {
                   .subscribe(
                     (response) => {
                       this.themesNiveau3 = response;
+                      this.trierThemesNiveau3IdCroissant();
                       this.emitThemesNiveau3Subject();
                     },
                     (error) => {
@@ -353,6 +356,30 @@ export class ThemeService {
 //                    console.log(event);
 //               }
            );
+  }
+
+  trierThemesIdCroissant() {
+      this.themes.sort(function(a,b) {
+          if (a.id > b.id) { return 1;}
+          if (a.id < b.id) { return -1;}
+          return 0;
+      });
+  }
+
+  trierThemesNiveau2IdCroissant() {
+      this.themesNiveau2.sort(function(a,b) {
+          if (a.id > b.id) { return 1;}
+          if (a.id < b.id) { return -1;}
+          return 0;
+      });
+  }
+
+  trierThemesNiveau3IdCroissant() {
+      this.themesNiveau3.sort(function(a,b) {
+          if (a.id > b.id) { return 1;}
+          if (a.id < b.id) { return -1;}
+          return 0;
+      });
   }
 
 }
