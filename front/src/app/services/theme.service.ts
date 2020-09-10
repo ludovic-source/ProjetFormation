@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Thematique } from '../models/Thematique';
@@ -85,9 +85,9 @@ export class ThemeService {
   emitAllThematiquesSubject() {
       this.allThematiquesSubject.next(this.allThematiques);
   }
-/*
+
   getImageTheme(id: number) {
-    //console.log('recherche image thème :' + id);
+    console.log('recherche image thème :' + id);
     for (let theme of this.themes) {
         if (theme.id == id) {
             return theme.imagePath;
@@ -95,7 +95,7 @@ export class ThemeService {
     }
     return 'non trouvée';
   }
-*/
+
   initThemeNiveau3Subject() {
       this.themesNiveau3.splice(0);
       this.emitThemesNiveau3Subject();
@@ -333,7 +333,8 @@ export class ThemeService {
   uploadImageTheme(theme: any, file) {
       const uploadData = new FormData();
       uploadData.append('file', file);
-      uploadData.append('theme', theme);
+      uploadData.append('theme', theme.id);
+
       let options = {
 //                  reportProgress: true,
 //                  observe: 'event',
@@ -341,7 +342,7 @@ export class ThemeService {
       };
       // uploader l'image de fond d'un thème
       this.httpClient
-           .post<any>('http://localhost:9095/portailci/thematique/updateupload', uploadData, options)
+           .post<any>('http://localhost:9095/portailci/thematique/updateupload/id', uploadData, options)
            .subscribe(
                (response) => {
                     console.log('upload image OK');
