@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { ThemeService } from './services/theme.service';
 import { EditionService } from './services/edition.service';
 import { Subscription } from 'rxjs/Subscription';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private editionService: EditionService,
               private themeService: ThemeService,
+              private domSanitizer: DomSanitizer,
               private router: Router) { }
 
   ngOnInit() {
@@ -63,11 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.editionService.desactiverModeEdition();
       this.authService.signOut();
    }
-/*
-   getProfil() {
-      return this.authService.getProfilUser();
-   }
-*/
 
    controleDroitUser(droit: string): boolean {
       return this.authService.controleDroitUser(droit);
@@ -105,28 +102,33 @@ export class AppComponent implements OnInit, OnDestroy {
       this.editionService.setLieuEditionLien(lieuEdition);
    }
 
-   getImage(theme) {
-      //return theme.imagePath;
-      // ci-dessous, juste pour les tests en attendant la mise en place de l'upload d'image
-      if (theme.id == 1) {
+   getImage(idTheme: number) {
+
+      //return this.domSanitizer.bypassSecurityTrustResourceUrl(window.localStorage.getItem('' + idTheme));
+
+      return window.localStorage.getItem('' + idTheme);  // pour récupérer la vraie image du back-end
+      // ci-dessous, juste pour les tests en attendant la mise en place du getImage()
+/*
+      if (idTheme == 1) {
           return 'icons8_f1_car_24px.png';
       }
-      if (theme.id == 2) {
+      if (idTheme == 2) {
           return 'icons8_golf_cart_24px.png';
       }
-      if (theme.id == 3) {
+      if (idTheme == 3) {
           return 'icons8_people_in_car_side_view_24px.png';
       }
-      if (theme.id == 4) {
+      if (idTheme == 4) {
           return 'icons8_food_truck_24px.png';
       }
-      if (theme.id == 5) {
+      if (idTheme == 5) {
           return 'icons8_tractor_24px.png';
       }
-      if (theme.id == 36) {
+      if (idTheme == 36) {
           return 'icons8_rocket_24px.png';
       }
       return '';
+*/
    }
 
 }

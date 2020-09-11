@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Thematique } from '../models/Thematique';
+import { switchMap, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ThemeService {
@@ -86,14 +87,64 @@ export class ThemeService {
       this.allThematiquesSubject.next(this.allThematiques);
   }
 
-  getImageTheme(id: number) {
-    console.log('recherche image thème :' + id);
+  // Pour le moment ne permet pas de récupérer l'image du back-end
+  getImageTheme() {
     for (let theme of this.themes) {
-        if (theme.id == id) {
-            return theme.imagePath;
-        }
+            console.log('recherche image thème :' + theme.id);
+            let options = {
+                        withCredentials: true,
+            };
+            this.httpClient
+                       .get<any>('http://localhost:9095/portailci/thematique/image/id/' + theme.id, options)
+                       .subscribe(
+                         (response) => {
+                          //let blob:any = new Blob([response], { type: 'image/png; charset=utf-8' });
+                           console.log('récupération image thème ' + theme.id + ' : OK');
+                           window.localStorage.setItem(theme.id, response);
+                           console.log('emplacement image : ' + window.localStorage.getItem(theme.id));
+                         },
+                         (error) => {
+                           console.log('Erreur ! : ' + error);
+                         }
+                       );
     }
-    return 'non trouvée';
+  }
+
+  getImageThemeAutreMethode() {
+      for (let theme of this.themes) {
+          console.log('recherche image thème :' + theme.id);
+          this.getData(theme.id)
+              .subscribe(
+                  imgData => window.localStorage.setItem(theme.id, imgData),
+                  err => console.log('Erreur ! : ' + err)
+          );
+      }
+  }
+
+  getData(idTheme: number): Observable<string> {
+      //let options = {
+      //                   responseType: 'blob',
+      //                   withCredentials: true,
+      //              };
+      return this.httpClient
+                     .get('http://localhost:9095/portailci/thematique/image/id/' + idTheme,
+                        { responseType: 'blob', withCredentials: true})
+                     .pipe(
+                         switchMap(response => this.readFile(response))
+                     );
+  }
+
+  private readFile(blob: Blob): Observable<string> {
+    return Observable.create(obs => {
+      const reader = new FileReader();
+
+      reader.onerror = err => obs.error(err);
+      reader.onabort = err => obs.error(err);
+      reader.onload = () => obs.next(reader.result);
+      reader.onloadend = () => obs.complete();
+
+      return reader.readAsDataURL(blob);
+    });
   }
 
   initThemeNiveau3Subject() {
@@ -113,6 +164,7 @@ export class ThemeService {
                   console.log('récupération thèmes OK');
                   this.trierThemesIdCroissant();
                   this.emitThemesSubject();
+                  this.getImageThemeAutreMethode();
                 },
                 (error) => {
                   console.log('Erreur ! : ' + error);
