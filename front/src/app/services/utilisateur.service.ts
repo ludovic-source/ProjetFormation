@@ -41,6 +41,8 @@ export class UtilisateurService {
               uoAffectation: 'Los Angeles Lakers'
             }];
 
+    private url = 'http://localhost:9095/portailci/utilisateurs/';
+
     constructor(private httpClient: HttpClient) {
     }
 
@@ -57,7 +59,7 @@ export class UtilisateurService {
                withCredentials: true
         };
         this.httpClient
-              .get<any>('http://localhost:9095/portailci/utilisateurs/get', options)
+              .get<any>(this.url + 'get', options)
               .subscribe(
                 (response) => {
                   this.allUtilisateurs = response;
@@ -76,7 +78,7 @@ export class UtilisateurService {
                    withCredentials: true
         };
         this.httpClient
-           .post<any>('http://localhost:9095/portailci/utilisateurs/create', utilisateur, options)
+           .post<any>(this.url + 'create', utilisateur, options)
            .subscribe(
                (response) => {
                     console.log('création utilisateur OK');
@@ -97,7 +99,7 @@ export class UtilisateurService {
                    withCredentials: true
         };
         this.httpClient
-           .put<any>('http://localhost:9095/portailci/utilisateurs/update', utilisateur, options)
+           .put<any>(this.url + 'update', utilisateur, options)
            .subscribe(
                (response) => {
                     console.log('mise à jour utilisateur OK');
@@ -124,7 +126,7 @@ export class UtilisateurService {
                    withCredentials: true
         };
         this.httpClient
-           .delete('http://localhost:9095/portailci/utilisateurs/delete/' + utilisateur.id, options)
+           .delete(this.url + 'delete/' + utilisateur.id, options)
            .subscribe(
                (response) => {
                     console.log('suppression utilisateur OK');

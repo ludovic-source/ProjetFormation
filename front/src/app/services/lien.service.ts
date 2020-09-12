@@ -12,6 +12,8 @@ export class LienService {
     liensSubject = new Subject<any[]>();
     private liens: any[];
 
+    private url = 'http://localhost:9095/portailci/lien/';
+
     constructor(private httpClient: HttpClient) {
     }
 
@@ -28,7 +30,7 @@ export class LienService {
                    withCredentials: true
              };
              this.httpClient
-                  .get<any>('http://localhost:9095/portailci/lien/find/thematique/' + idThematique, options)
+                  .get<any>(this.url + 'find/thematique/' + idThematique, options)
                   .subscribe(
                     (response) => {
                       this.liensNiveau1 = response;
@@ -49,7 +51,7 @@ export class LienService {
                    withCredentials: true
              };
              this.httpClient
-                  .get<any>('http://localhost:9095/portailci/lien/find/thematique/' + idThematique, options)
+                  .get<any>(this.url + 'find/thematique/' + idThematique, options)
                   .subscribe(
                     (response) => {
                       this.liens = response;
@@ -70,7 +72,7 @@ export class LienService {
         };
         // Créer un lien
         this.httpClient
-             .post<any>('http://localhost:9095/portailci/lien/create', lien, options)
+             .post<any>(this.url + 'create', lien, options)
              .subscribe(
                   (response) => {
                       console.log('création lien OK');
@@ -92,7 +94,7 @@ export class LienService {
         };
         // Publier un lien
         this.httpClient
-             .put<any>('http://localhost:9095/portailci/lien/publier', lien, options)
+             .put<any>(this.url + 'publier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('publication lien OK');
@@ -112,7 +114,7 @@ export class LienService {
         };
         // Depublier un lien
         this.httpClient
-             .put<any>('http://localhost:9095/portailci/lien/depublier', lien, options)
+             .put<any>(this.url + 'depublier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('dépublication lien OK');
@@ -132,7 +134,7 @@ export class LienService {
         };
         // modifier un lien
         this.httpClient
-             .put<any>('http://localhost:9095/portailci/lien/modifier', lien, options)
+             .put<any>(this.url + 'modifier', lien, options)
              .subscribe(
                   (response) => {
                       console.log('modification lien OK');

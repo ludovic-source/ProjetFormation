@@ -22,6 +22,8 @@ export class ThemeService {
   themesNiveau3Subject = new Subject<any[]>();
   private themesNiveau3: any[];
 
+  private url = 'http://localhost:9095/portailci/thematique/';
+
   /*
   themesTest = [
             { id: 1,
@@ -87,30 +89,7 @@ export class ThemeService {
       this.allThematiquesSubject.next(this.allThematiques);
   }
 
-  // Pour le moment ne permet pas de récupérer l'image du back-end
   getImageTheme() {
-    for (let theme of this.themes) {
-            console.log('recherche image thème :' + theme.id);
-            let options = {
-                        withCredentials: true,
-            };
-            this.httpClient
-                       .get<any>('http://localhost:9095/portailci/thematique/image/id/' + theme.id, options)
-                       .subscribe(
-                         (response) => {
-                          //let blob:any = new Blob([response], { type: 'image/png; charset=utf-8' });
-                           console.log('récupération image thème ' + theme.id + ' : OK');
-                           window.localStorage.setItem(theme.id, response);
-                           console.log('emplacement image : ' + window.localStorage.getItem(theme.id));
-                         },
-                         (error) => {
-                           console.log('Erreur ! : ' + error);
-                         }
-                       );
-    }
-  }
-
-  getImageThemeAutreMethode() {
       for (let theme of this.themes) {
           console.log('recherche image thème :' + theme.id);
           this.getData(theme.id)
@@ -122,12 +101,8 @@ export class ThemeService {
   }
 
   getData(idTheme: number): Observable<string> {
-      //let options = {
-      //                   responseType: 'blob',
-      //                   withCredentials: true,
-      //              };
       return this.httpClient
-                     .get('http://localhost:9095/portailci/thematique/image/id/' + idTheme,
+                     .get(this.url + 'image/id/' + idTheme,
                         { responseType: 'blob', withCredentials: true})
                      .pipe(
                          switchMap(response => this.readFile(response))
@@ -157,14 +132,14 @@ export class ThemeService {
                withCredentials: true
     };
     this.httpClient
-              .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+              .get<any>(this.url + 'findenfants/' + idParent, options)
               .subscribe(
                 (response) => {
                   this.themes = response;
                   console.log('récupération thèmes OK');
                   this.trierThemesIdCroissant();
                   this.emitThemesSubject();
-                  this.getImageThemeAutreMethode();
+                  this.getImageTheme();
                 },
                 (error) => {
                   console.log('Erreur ! : ' + error);
@@ -177,7 +152,7 @@ export class ThemeService {
                  withCredentials: true
       };
       this.httpClient
-                .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+                .get<any>(this.url + 'findenfants/' + idParent, options)
                 .subscribe(
                   (response) => {
                     this.themesNiveau2 = response;
@@ -196,7 +171,7 @@ export class ThemeService {
                    withCredentials: true
        };
        this.httpClient
-                  .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+                  .get<any>(this.url + 'findenfants/' + idParent, options)
                   .subscribe(
                     (response) => {
                       this.themesNiveau3 = response;
@@ -218,7 +193,7 @@ export class ThemeService {
 
        // récupérer les thématiques de niveau 1 (thème)
        this.httpClient
-            .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + 0, options)
+            .get<any>(this.url + 'findenfants/' + 0, options)
             .subscribe(
                 (response) => {
                      this.allThematiques = response;
@@ -240,7 +215,7 @@ export class ThemeService {
       };
       // récupérer les thématiques de niveau 2 (sous-thèmes)
       this.httpClient
-           .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+           .get<any>(this.url + 'findenfants/' + idParent, options)
            .subscribe(
                (response) => {
                     for (let thematique of response) {
@@ -260,7 +235,7 @@ export class ThemeService {
       };
       // récupérer les thématiques de niveau 3 (sous sous-thèmes)
       this.httpClient
-           .get<any>('http://localhost:9095/portailci/thematique/findenfants/' + idParent, options)
+           .get<any>(this.url + 'findenfants/' + idParent, options)
            .subscribe(
                (response) => {
                     for (let thematique of response) {
@@ -279,7 +254,7 @@ export class ThemeService {
       };
       // Créer une thematique
       this.httpClient
-           .post<any>('http://localhost:9095/portailci/thematique/create', thematique, options)
+           .post<any>(this.url + 'create', thematique, options)
            .subscribe(
                (response) => {
                     console.log('création thematique OK');
@@ -305,7 +280,7 @@ export class ThemeService {
       };
       // Supprimer une thematique
       this.httpClient
-           .delete('http://localhost:9095/portailci/thematique/delete/' + idThematique, options)
+           .delete(this.url + 'delete/' + idThematique, options)
            .subscribe(
                () => {
                     console.log('suppression thematique OK');
@@ -337,7 +312,7 @@ export class ThemeService {
       };
       // Créer une thematique
       this.httpClient
-           .put<any>('http://localhost:9095/portailci/thematique/update', thematique, options)
+           .put<any>(this.url + 'update', thematique, options)
            .subscribe(
                (response) => {
                     console.log('update thematique OK');
@@ -394,7 +369,7 @@ export class ThemeService {
       };
       // uploader l'image de fond d'un thème
       this.httpClient
-           .post<any>('http://localhost:9095/portailci/thematique/updateupload/id', uploadData, options)
+           .post<any>(this.url + 'updateupload/id', uploadData, options)
            .subscribe(
                (response) => {
                     console.log('upload image OK');

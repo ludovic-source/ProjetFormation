@@ -9,6 +9,8 @@ export class ProfilService {
     allProfilsSubject = new Subject<any[]>();
     private allProfils: any[];
 
+    private url = 'http://localhost:9095/portailci/profils/';
+
     constructor(private httpClient: HttpClient) {
     }
 
@@ -21,7 +23,7 @@ export class ProfilService {
                withCredentials: true
         };
         this.httpClient
-              .get<any>('http://localhost:9095/portailci/profils/get', options)
+              .get<any>(this.url + 'get', options)
               .subscribe(
                 (response) => {
                   this.allProfils = response;
@@ -39,7 +41,7 @@ export class ProfilService {
                    withCredentials: true
         };
         this.httpClient
-           .post<any>('http://localhost:9095/portailci/profils/create', profil, options)
+           .post<any>(this.url + 'create', profil, options)
            .subscribe(
                (response) => {
                     console.log('création profil OK');
@@ -60,7 +62,7 @@ export class ProfilService {
                    withCredentials: true
         };
         this.httpClient
-           .put<any>('http://localhost:9095/portailci/profils/update', profil, options)
+           .put<any>(this.url + 'update', profil, options)
            .subscribe(
                (response) => {
                     console.log('mise à jour profil OK');
@@ -87,7 +89,7 @@ export class ProfilService {
                    withCredentials: true
         };
         this.httpClient
-           .delete('http://localhost:9095/portailci/profils/delete/' + profil.id, options)
+           .delete(this.url + 'delete/' + profil.id, options)
            .subscribe(
                (response) => {
                     console.log('suppression profil OK');

@@ -9,6 +9,8 @@ export class DroitService {
     allDroitsSubject = new Subject<any[]>();
     private allDroits: any[];
 
+    private url = 'http://localhost:9095/portailci/droits/';
+
     constructor(private httpClient: HttpClient) {
     }
 
@@ -21,7 +23,7 @@ export class DroitService {
                withCredentials: true
         };
         this.httpClient
-              .get<any[]>('http://localhost:9095/portailci/droits/get', options)
+              .get<any[]>(this.url + 'get', options)
               .subscribe(
                 (response) => {
                   this.allDroits = response;
