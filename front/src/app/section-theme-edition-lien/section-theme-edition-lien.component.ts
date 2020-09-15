@@ -33,6 +33,9 @@ export class SectionThemeEditionLienComponent implements OnInit {
   liens: any[];
   liensSubscription: Subscription;
 
+  liensNiveau2: any[];
+  liensNiveau2Subscription: Subscription;
+
   themes : any[];
   themesSubscription : Subscription;
 
@@ -68,6 +71,11 @@ export class SectionThemeEditionLienComponent implements OnInit {
                                       this.themes = themes;
                                    });
       this.themeService.emitThemesSubject();
+      this.liensNiveau2Subscription = this.lienService.liensNiveau2Subject.subscribe(
+                      (liens: any[]) => {
+                                            this.liensNiveau2 = liens;
+                                         });
+      this.lienService.emitLiensNiveau2Subject();
       this.themesNiveau2Subscription = this.themeService.themesNiveau2Subject.subscribe(
                       (themes: any[]) => {
                                             this.themesNiveau2 = themes;

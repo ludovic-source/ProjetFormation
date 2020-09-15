@@ -9,6 +9,9 @@ export class LienService {
     liensNiveau1Subject = new Subject<any[]>();
     private liensNiveau1: any[];
 
+    liensNiveau2Subject = new Subject<any[]>();
+    private liensNiveau2: any[];
+
     liensSubject = new Subject<any[]>();
     private liens: any[];
 
@@ -19,6 +22,10 @@ export class LienService {
 
     emitLiensNiveau1Subject() {
         this.liensNiveau1Subject.next(this.liensNiveau1);
+    }
+
+    emitLiensNiveau2Subject() {
+        this.liensNiveau2Subject.next(this.liensNiveau2);
     }
 
     emitLiensSubject() {
@@ -37,7 +44,6 @@ export class LienService {
                       console.log('récupération liens niveau 1 OK');
                       console.log('nbre liens rattachés niveau 1: ' + this.liensNiveau1.length);
                       this.emitLiensNiveau1Subject();
-
                     },
                     (error) => {
                       console.log('Erreur ! : ' + error);
@@ -64,6 +70,26 @@ export class LienService {
                     }
              );
         return this.liens;
+    }
+
+    getLiensNiveau2(idThematique: number) : any[] {
+        let options = {
+                   withCredentials: true
+             };
+             this.httpClient
+                  .get<any>(this.url + 'find/thematique/' + idThematique, options)
+                  .subscribe(
+                    (response) => {
+                      this.liensNiveau2 = response;
+                      console.log('récupération liens niveau 2 OK');
+                      console.log('nbre liens niveau 2 : ' + this.liensNiveau2.length);
+                      this.emitLiensNiveau2Subject();
+                    },
+                    (error) => {
+                      console.log('Erreur ! : ' + error);
+                    }
+             );
+        return this.liensNiveau2;
     }
 
     createLien(lien :Lien): any {

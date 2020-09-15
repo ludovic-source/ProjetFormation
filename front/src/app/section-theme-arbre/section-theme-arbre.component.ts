@@ -25,6 +25,9 @@ export class SectionThemeArbreComponent implements OnInit {
   liensNiveau1: any[];
   liensNiveau1Subscription: Subscription;
 
+  liensNiveau2: any[];
+  liensNiveau2Subscription: Subscription;
+
   liens: any[];
   liensSubscription: Subscription;
 
@@ -55,6 +58,11 @@ export class SectionThemeArbreComponent implements OnInit {
                                             this.liensNiveau1 = liens;
                                          });
       this.lienService.emitLiensNiveau1Subject();
+      this.liensNiveau2Subscription = this.lienService.liensNiveau2Subject.subscribe(
+                      (liens: any[]) => {
+                                            this.liensNiveau2 = liens;
+                                         });
+      this.lienService.emitLiensNiveau2Subject();
       this.liensSubscription = this.lienService.liensSubject.subscribe(
                        (liens: any[]) => {
                                             this.liens = liens;
@@ -78,12 +86,7 @@ export class SectionThemeArbreComponent implements OnInit {
   getIdTheme() {
       return this.idTheme;
   }
-/*
-  getImage() {
-      //console.log('/assets/images/' + this.themeService.getImageTheme(this.idTheme));
-      return '/assets/images/' + this.themeService.getImageTheme(this.idTheme);
-  }
-*/
+
   async constructionArbre() {
       console.log('section-theme / idTheme : ' + this.idTheme);
       this.themesNiveau2 = await this.recuperationThematiquesNiveau2();
@@ -100,11 +103,15 @@ export class SectionThemeArbreComponent implements OnInit {
       this.idThemeNiveauOuvert = idThemeNiveau2;
       console.log('section-theme / idTheme : ' + idThemeNiveau2);
       this.themesNiveau3 = this.themeService.getThemesNiveau3(idThemeNiveau2);
-      this.liens = this.lienService.getLiens(idThemeNiveau2);
+      this.liensNiveau2 = this.lienService.getLiensNiveau2(idThemeNiveau2);
   }
 
   recuperationLiensNiveau1() {
       return Promise.resolve(this.lienService.getLiensNiveau1(this.idTheme));
+  }
+
+  getLiensNiveau2() {
+      return Promise.resolve(this.lienService.getLiensNiveau2(this.idTheme));
   }
 
   getLiens(idTheme: number) {

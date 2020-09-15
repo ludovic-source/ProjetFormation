@@ -109,10 +109,19 @@
       </select><br />
     </p>
 
-    <p>
+    <p *ngIf="indicateursEdition.lieuEdition != 4">
       <label for="liens">nom du lien à publier : </label>
       <select name="lien" id="liens" ngModel>
         <ng-container *ngFor="let lien of liens">
+          <option [ngValue]="lien" *ngIf="lien.statut === 'publié restreint'">{{ lien.nom }}</option>
+        </ng-container>
+      </select><br />
+    </p>
+
+    <p *ngIf="indicateursEdition.lieuEdition === 4">
+      <label for="liensNiveau2">nom du lien à publier : </label>
+      <select name="lien" id="liensNiveau2" ngModel>
+        <ng-container *ngFor="let lien of liensNiveau2">
           <option [ngValue]="lien" *ngIf="lien.statut === 'publié restreint'">{{ lien.nom }}</option>
         </ng-container>
       </select><br />

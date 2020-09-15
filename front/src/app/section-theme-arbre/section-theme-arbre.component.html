@@ -70,35 +70,35 @@
         </a>
 
       </div>
-      <div class="bloc_lien" *ngFor="let lien of liens">
+      <div class="bloc_lien" *ngFor="let lienNiveau2 of liensNiveau2">
         <ng-container *ngIf="indicateursEdition.isModeEdition != true">
-          <p *ngIf="lien.thematique.id == themeNiveau2.id
-                    && lien.statut == 'publié'">
-            <a *ngIf="lien.mode_affichage == false"
-               href="{{ lien.url }}"
-               title="{{ lien.description }}"
-               target="_blank"> {{ lien.nom }}</a>
-            <a *ngIf="lien.mode_affichage == true"
-               title="{{ lien.description }}"
-               href="{{ lien.url }}"> {{ lien.nom }}</a>
+          <p *ngIf="lienNiveau2.thematique.id == themeNiveau2.id
+                    && lienNiveau2.statut == 'publié'">
+            <a *ngIf="lienNiveau2.mode_affichage == false"
+               href="{{ lienNiveau2.url }}"
+               title="{{ lienNiveau2.description }}"
+               target="_blank"> {{ lienNiveau2.nom }}</a>
+            <a *ngIf="lienNiveau2.mode_affichage == true"
+               title="{{ lienNiveau2.description }}"
+               href="{{ lienNiveau2.url }}"> {{ lienNiveau2.nom }}</a>
           </p>
         </ng-container>
         <ng-container *ngIf="indicateursEdition.isModeEdition === true">
-          <p *ngIf="lien.thematique.id == themeNiveau2.id">
+          <p *ngIf="lienNiveau2.thematique.id == themeNiveau2.id">
             <button (click)="editerLien(4)"
                     class="bouton_edition">
               <img src="/assets/images/L16px.png"
                    alt="modifier le lien"
                    title="modifier le lien">
             </button>
-            <a *ngIf="lien.mode_affichage == false"
-               href="{{ lien.url }}"
-               title="{{ lien.description }}"
-               target="_blank"> {{ lien.nom }}</a>
-            <a *ngIf="lien.mode_affichage == true"
-               title="{{ lien.description }}"
-               href="{{ lien.url }}"> {{ lien.nom }}</a>
-            <span *ngIf="lien.statut === 'publié restreint'">*</span>
+            <a *ngIf="lienNiveau2.mode_affichage == false"
+               href="{{ lienNiveau2.url }}"
+               title="{{ lienNiveau2.description }}"
+               target="_blank"> {{ lienNiveau2.nom }}</a>
+            <a *ngIf="lienNiveau2.mode_affichage == true"
+               title="{{ lienNiveau2.description }}"
+               href="{{ lienNiveau2.url }}"> {{ lienNiveau2.nom }}</a>
+            <span *ngIf="lienNiveau2.statut === 'publié restreint'">*</span>
           </p>
         </ng-container>
       </div>
