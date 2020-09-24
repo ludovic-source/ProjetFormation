@@ -194,7 +194,8 @@ nav
 
 #bloc_module_parametrage
 {
-
+  display: flex;
+  justify-content: space-around;
 }
 
 #bloc_menu_parametrage
@@ -282,10 +283,6 @@ nav
   border: 0px black solid;
   margin: 0px 5px 5px 0px;
 }
-
-
-
-
 
 td, th
 {

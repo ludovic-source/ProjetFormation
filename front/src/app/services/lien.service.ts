@@ -103,8 +103,6 @@ export class LienService {
                   (response) => {
                       console.log('création lien OK');
                       alert('lien ' + response.nom + ' créé');
-                      //    this.liens.push(response);
-                      //    this.emitLiensSubject();
                       return response;
                   },
                   (error) => {
